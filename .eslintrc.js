@@ -1,5 +1,10 @@
 module.exports = {
-  extends: 'airbnb-base',
+  extends: ['airbnb', 'airbnb/hooks'],
+  // plugins: [
+  //   'react',
+  //   'jsx-a11y',
+  //   'import',
+  // ],
   rules: {
     'no-console': 1,
     'no-plusplus': 'off',

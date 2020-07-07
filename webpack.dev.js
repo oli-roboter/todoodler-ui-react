@@ -6,7 +6,7 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   mode: 'development',
-  // devtool: 'inline-source-map',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -23,7 +23,7 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
-    // creates the index.html in dist folder with script tag linked to correct hashed main.js file 
+    // creates the index.html in dist folder with script tag linked to correct hashed main.js file
     new HtmlWebPackPlugin({
       template: './src/template.html',
       filename: './index.html',
