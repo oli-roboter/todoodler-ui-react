@@ -14,6 +14,7 @@ module.exports = merge(common, {
   output: {
     filename: 'main.[contentHash].js', // for cash busting
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   optimization: {
     minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin()], // overides the js minification

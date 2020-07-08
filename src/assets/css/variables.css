@@ -1,0 +1,33 @@
+:root {
+  --font-size-l: 16px;
+  --font-size-m: 14px;
+  --font-size-s: 12px;
+  --height-btn-xs: 32px;
+  --height-btn-s: 36px;
+  --height-btn-m: 48px;
+  --height-react-select: 38px;
+  --height-header: 38px;
+  --height-mdc-textfield: 56px;
+  --height-hdr: 60px;
+  --height-activity-nav: 80px;
+  --width-mdc-checkbox: 40px;
+  --width-btn-asmt: 148px;
+  --width-section-xxs: 224px;
+  --width-section-xs: 400px;
+  --width-section-s: 600px;
+  --width-section-m: 800px;
+  --width-screen-max: 1000px;
+  --width-student-profile-min: 270px;
+  --width-student-profile-max: 330px;
+
+  --margin-xxs: 0.125rem;
+  --margin-xs: 0.25rem;
+  --margin-s: 0.5rem;
+  --margin-m: 1rem;
+  --margin-l: 1.5rem;
+  --margin-xl: 2rem;
+  --margin-xxl: 4rem;
+  --margin-col-gap: var(--margin-xs);
+
+  --box-shadow-l: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}

@@ -9,5 +9,6 @@ module.exports = {
     'no-console': 1,
     'no-plusplus': 'off',
     'no-param-reassign': [2, { props: false }],
+    'react/prop-types': 0,
   },
 };
