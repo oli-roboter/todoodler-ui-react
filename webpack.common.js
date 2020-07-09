@@ -1,6 +1,13 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const Dotenv = require('dotenv-webpack');
+// require('dotenv').config();
+
 module.exports = {
   entry: './src/index.jsx',
   resolve: { extensions: ['.js', '.jsx'] },
+  node: {
+    fs: 'empty',
+  },
   module: {
     rules: [
       {
@@ -26,4 +33,9 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new Dotenv({
+      path: './.env',
+    }),
+  ],
 };
