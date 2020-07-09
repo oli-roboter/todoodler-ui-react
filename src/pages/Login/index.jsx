@@ -1,41 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from '@reach/router';
 // import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-// import TextField from '@material-ui/core/TextField';
-// import Input from '@material-ui/core/Input';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { login } from '../../services/api/auth';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { useAuthState } from '../../auth/AuthContext';
 
-const Page = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const LoginForm = styled.form`
-  margin: 5px;
-  padding: 20px;
-  border-radius: 5px;
-  border: 1px solid lightGrey;
-`;
-
-const Field = styled.div`
-  margin: 10px;
-  padding: 0px;
-  width: 300px;
-`;
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  error: {
+    marginTop: theme.spacing(1),
+  },
+}));
 
 function Login() {
+  const {
+    signIn,
+    authenticating,
+    authenticated,
+    error,
+  } = useAuthState();
+  const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [error, setError] = useState('');
-  const [authenticating, setAuthenticating] = useState(false);
 
   const handleUsernameInput = (e) => setUsername(e.target.value);
 
@@ -43,88 +51,74 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setAuthenticating(true);
-    const user = await login(username, password);
-    console.log('user in frontend', user);
-    setAuthenticating(false);
+    await signIn(username, password);
   };
+
   return (
-    <Page>
-      <LoginForm>
-        <Field>
-          {/* <TextField
-            error={false}
-            variant="outlined"
-            fullWidth
-            label="Username"
-            helperText={error}
-          >
-            <Input
-              autoFocus
-              id="Login-input-email"
-              value={username}
-              onChange={handleUsernameInput}
-              className="login-ip"
-            />
-          </TextField>
-        </Field>
-
-        <Field>
-          <TextField
-            error={false}
-            variant="outlined"
-            fullWidth
-            type="password"
-            label="Password"
-            helperText={error}
-          >
-            <Input
-              id="Login-input-pw"
-              type="password"
-              autoComplete="off"
-              value={password}
-              onChange={handlePasswordInput}
-              className="login-ip"
-            />
-          </TextField> */}
-          <Field>
-            <input
-              type="text"
-              placeholder="Username"
-              onChange={handleUsernameInput}
-              value={username}
-            />
-          </Field>
-          <Field>
-            <input
-              type="password"
-              placeholder="Username"
-              onChange={handlePasswordInput}
-              value={password}
-            />
-          </Field>
-        </Field>
-
-        {authenticating ? (
-          <CircularProgress />
-        ) : (
-          <Field>
-            <Button
-              id="Login-button-signin"
-              variant="contained"
+    <>
+      <Container component="main" maxWidth="xs">
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
               fullWidth
-              color="primary"
-              unelevated="true"
-              disabled={false}
+              id="username"
+              label="Username"
+              name="username"
+              value={username}
+              onChange={handleUsernameInput}
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordInput}
+              autoComplete="current-password"
+            />
+            <Button
+              disabled={authenticating}
               type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
               onClick={handleSubmit}
+              className={classes.submit}
             >
-              Sign in
+              {authenticating ? 'Loging in...' : 'Sign In'}
             </Button>
-          </Field>
-        )}
-      </LoginForm>
-    </Page>
+            <Link href="#" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
+            {error && (
+              <Typography
+                className={classes.error}
+                component="div"
+                variant="body2"
+                color="error"
+              >
+                {error}
+              </Typography>
+            )}
+          </form>
+        </div>
+      </Container>
+      {authenticated && <Redirect to="/" noThrow={true} />}
+    </>
   );
 }
 
