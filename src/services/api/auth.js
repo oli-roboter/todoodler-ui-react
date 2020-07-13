@@ -9,7 +9,7 @@ const storageHandler = {
     localStorage.setItem('user', JSON.stringify(user));
   },
   get: (key) => localStorage.getItem(key),
-  clear: localStorage.clear(),
+  clear: () => localStorage.clear(),
 };
 
 export const login = async (username, password) => {
