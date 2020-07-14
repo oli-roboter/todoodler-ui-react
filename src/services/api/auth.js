@@ -60,6 +60,14 @@ export const logout = async () => {
   return true;
 };
 
-export const createUser = async () => {
-  console.log('to do: hook up with signup endpoint');
+export const createUser = async (username, password, workGroup) => {
+  const url = `${AUTH}/signup`;
+  try {
+    const response = await axios.post(url, {
+      username, password, workGroup,
+    });
+    return { data: response.data, statusCode: response.status };
+  } catch (error) {
+    return { error: error.response.data, statusCode: error.response.status };
+  }
 };

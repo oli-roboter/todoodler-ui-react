@@ -14,7 +14,7 @@ import {
 import authReducer from './login-reducer';
 
 const initialState = {
-  authenticating: false,
+  loading: false,
   authenticated: false,
   error: '',
 };
@@ -28,19 +28,19 @@ export const AuthProvider = ({ children }) => {
      Redirect to pages from here after login, logout and authorisation
   */
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const { authenticated, authenticating, error } = state;
+  const { authenticated, signedup, loading, error } = state;
   // if authenticated navigate to main page
 
   const errorHandler = {
     400: 'Missing username or password missing',
-    403: 'Incorrect username or password',
+    409: 'User already exists',
     500: 'Something bad happened, not your fault though',
   };
 
   useEffect(() => {
     getUserFromSession()
       .then((user) => {
-        if (user) dispatch({ type: 'success' });
+        if (user) dispatch({ type: 'login success' });
       });
   }, [authenticated]);
 
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         dispatch({ type: 'error', payload: errorHandler[statusCode] });
         return;
       }
-      dispatch({ type: 'success' });
+      dispatch({ type: 'login success' });
     } catch (err) {
       // console.error('Errinho', err);
       dispatch({ type: 'error', payload: errorHandler[500] });
@@ -65,15 +65,28 @@ export const AuthProvider = ({ children }) => {
     await logout();
   };
 
-  const signUp = async () => {
-    await createUser();
+  const signUp = async (username, password, group) => {
+    try {
+      dispatch({ type: 'login' });
+      const signupResult = await createUser(username, password, group);
+      const { statusCode } = signupResult;
+      if (statusCode !== 201) {
+        dispatch({ type: 'error', payload: errorHandler[statusCode] });
+        return;
+      }
+      dispatch({ type: 'signup success' });
+    } catch (err) {
+      // console.error('Errinho', err);
+      dispatch({ type: 'error', payload: errorHandler[500] });
+    }
   };
 
   return (
     <AuthContext.Provider
       value={{
         authenticated,
-        authenticating,
+        signedup,
+        loading,
         signIn,
         signUp,
         signOut,
@@ -89,15 +102,19 @@ export const useAuthState = () => {
   const state = useContext(AuthContext);
   const {
     authenticated,
-    authenticating,
+    signedup,
+    loading,
     signIn,
+    signUp,
     signOut,
     error,
   } = state;
   return {
     authenticated,
-    authenticating,
+    signedup,
+    loading,
     signIn,
+    signUp,
     signOut,
     error,
   };

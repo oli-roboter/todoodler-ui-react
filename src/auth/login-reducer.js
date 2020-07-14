@@ -4,14 +4,21 @@ export default function authReducer(state, action) {
       return {
         ...state,
         error: '',
-        authenticating: true,
+        loading: true,
       };
     }
-    case 'success': {
+    case 'login success': {
       return {
         ...state,
         authenticated: true,
-        authenticating: false,
+        loading: false,
+      };
+    }
+    case 'signup success': {
+      return {
+        ...state,
+        signedup: true,
+        loading: false,
       };
     }
     case 'error': {
@@ -19,7 +26,7 @@ export default function authReducer(state, action) {
         ...state,
         error: action.payload,
         authenticated: false,
-        authenticating: false,
+        loading: false,
       };
     }
     case 'logOut': {

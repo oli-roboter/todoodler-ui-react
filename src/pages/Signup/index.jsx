@@ -3,8 +3,8 @@ import { Redirect, Link as RouterLink } from '@reach/router';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { Link } from '@material-ui/core';
+import FaceIcon from '@material-ui/icons/Face';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -31,26 +31,31 @@ const useStyles = makeStyles((theme) => ({
   error: {
     marginTop: theme.spacing(1),
   },
+  link: {
+    color: '#3f51b5',
+  },
 }));
 
-function Login() {
+function SignUp() {
   const {
-    signIn,
+    signUp,
     loading,
     authenticated,
+    signedup,
     error,
   } = useAuthState();
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [group, setGroup] = useState('');
 
   const handleUsernameInput = (e) => setUsername(e.target.value);
-
   const handlePasswordInput = (e) => setPassword(e.target.value);
+  const handleGroupInput = (e) => setGroup(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signIn(username, password);
+    await signUp(username, password, group);
   };
 
   return (
@@ -58,10 +63,10 @@ function Login() {
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <FaceIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -89,6 +94,19 @@ function Login() {
               onChange={handlePasswordInput}
               autoComplete="current-password"
             />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="group"
+              label="User Group"
+              type="text"
+              id="userGroup"
+              value={group}
+              onChange={handleGroupInput}
+              autoComplete="current-password"
+            />
             <Button
               disabled={loading}
               type="submit"
@@ -98,14 +116,14 @@ function Login() {
               onClick={handleSubmit}
               className={classes.submit}
             >
-              {loading ? 'Loging in...' : 'Sign In'}
+              {loading ? 'Signing up...' : 'Sign Up'}
             </Button>
             <Link
               component={RouterLink}
               variant="body2"
-              to="/signup"
+              to="/login"
             >
-              Don&apos;have an account? Sign Up
+              Already have an account? Sign In
             </Link>
             {error && (
               <Typography
@@ -121,8 +139,9 @@ function Login() {
         </div>
       </Container>
       {authenticated && <Redirect to="/" noThrow={true} />}
+      {signedup && <Redirect to="/login" noThrow={true} />}
     </>
   );
 }
 
-export default Login;
+export default SignUp;
