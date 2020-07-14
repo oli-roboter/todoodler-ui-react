@@ -15,7 +15,7 @@ import { useAuthState } from '../../auth/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    gridColumn: '1 / span 2',
+    gridColumn: 2,
     gridRow: 1,
     flexGrow: 1,
   },

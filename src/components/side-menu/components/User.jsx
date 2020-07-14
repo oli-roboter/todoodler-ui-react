@@ -32,7 +32,7 @@ const User = ({ username, filter }) => {
         color="primary"
         inputProps={{ 'aria-label': 'primary checkbox' }}
       />
-      <Typography variant="body1">
+      <Typography variant="body2">
         {username}
       </Typography>
     </div>
