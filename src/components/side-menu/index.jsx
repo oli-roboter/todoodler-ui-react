@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const Layout = styled.section`
   grid-column: 1;
   grid-row: 2;
-  background-color: blue;
+  border: 1px solid grey;
+  // background-color: blue;
 `;
 
 const Sidemenu = () => (
