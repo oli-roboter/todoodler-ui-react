@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = () => {
-  const { user, signOut } = useAuthState();
   const classes = useStyles();
+  const { user, signOut } = useAuthState();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);

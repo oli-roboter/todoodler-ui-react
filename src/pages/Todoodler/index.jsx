@@ -7,7 +7,7 @@ import Main from './components/Main';
 const Layout = styled.section`
   display: grid;
   grid-template-rows: 70px auto;
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 1fr 6fr;
   width: 100vw;
   height: 90vh;
 `;
