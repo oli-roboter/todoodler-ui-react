@@ -22,25 +22,25 @@ const initialState = {
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  /*
-     Add methods for login, logout and authorise here,
-     and pass to Login function
-     Redirect to pages from here after login, logout and authorisation
-  */
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const { authenticated, signedup, loading, error } = state;
-  // if authenticated navigate to main page
+  const {
+    user,
+    authenticated,
+    signedup,
+    loading,
+    error,
+  } = state;
 
   const errorHandler = {
-    400: 'Missing username or password missing',
+    400: 'Missing username or password',
     409: 'User already exists',
     500: 'Something bad happened, not your fault though',
   };
 
   useEffect(() => {
     getUserFromSession()
-      .then((user) => {
-        if (user) dispatch({ type: 'login success' });
+      .then((sessionUser) => {
+        if (sessionUser) dispatch({ type: 'login success', payload: sessionUser.username });
       });
   }, [authenticated]);
 
@@ -60,9 +60,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // to do
   const signOut = async () => {
     await logout();
+    dispatch({ type: 'logout' });
   };
 
   const signUp = async (username, password, group) => {
@@ -84,6 +84,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        user,
         authenticated,
         signedup,
         loading,
@@ -101,6 +102,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuthState = () => {
   const state = useContext(AuthContext);
   const {
+    user,
     authenticated,
     signedup,
     loading,
@@ -110,6 +112,7 @@ export const useAuthState = () => {
     error,
   } = state;
   return {
+    user,
     authenticated,
     signedup,
     loading,

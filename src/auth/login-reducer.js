@@ -12,6 +12,7 @@ export default function authReducer(state, action) {
         ...state,
         authenticated: true,
         loading: false,
+        user: action.payload,
       };
     }
     case 'signup success': {
@@ -29,10 +30,11 @@ export default function authReducer(state, action) {
         loading: false,
       };
     }
-    case 'logOut': {
+    case 'logout': {
       return {
         ...state,
         authenticated: false,
+        user: '',
       };
     }
     default:
