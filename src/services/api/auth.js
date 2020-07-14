@@ -55,9 +55,25 @@ export const getUserFromSession = async () => {
 };
 
 export const logout = async () => {
+  /*
+    clears the user from local storage -> prevents user from using UI to interact with backend
+    clears token from backend -> prevents any API calls using the user token
+    If axios request fails, user will be logged out of UI, but token will still be valid,
+    until user logs in again
+  */
+  const url = `${AUTH}/login`;
+  const user = await getUserFromSession();
+  const { token, username } = user;
+  const headers = { 'x-todo-token': token };
   await storageHandler.clear();
-  console.log('to do: get username and token from localstorage and validate at endpoint');
-  return true;
+  try {
+    await axios.delete(url, {
+      headers,
+      data: { username },
+    });
+  } catch (error) {
+    console.error('Erro:', error.response);
+  }
 };
 
 export const createUser = async (username, password, workGroup) => {

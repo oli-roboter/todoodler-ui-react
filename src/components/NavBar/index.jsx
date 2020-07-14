@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = () => {
-  const { signOut } = useAuthState();
+  const { user, signOut } = useAuthState();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -108,7 +108,7 @@ const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            {user}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
