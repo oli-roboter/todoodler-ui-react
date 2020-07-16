@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,13 +11,26 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(0.5),
     // backgroundColor: theme.palette.primary.light,
   },
   userTitle: {
     marginTop: theme.spacing(1),
   },
+  buttonText: {
+    paddingRight: theme.spacing(1),
+  },
 }));
+
+const AddTodoBtn = withStyles((theme) => ({
+  root: {
+    margin: theme.spacing(0),
+    '&:hover': {
+      borderRadius: '5px',
+      boxShadow: 'none',
+    },
+  },
+}))(IconButton);
 
 const AddTodo = () => {
   const classes = useStyles();
@@ -28,12 +41,12 @@ const AddTodo = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6">
-        Todo
-      </Typography>
-      <IconButton onClick={handleClick}>
-        <AddCircleOutlineIcon fontSize="large" />
-      </IconButton>
+      <AddTodoBtn onClick={handleClick}>
+        <Typography variant="h6" className={classes.buttonText}>
+          Todo
+        </Typography>
+        <AddCircleOutlineIcon />
+      </AddTodoBtn>
     </div>
   );
 };

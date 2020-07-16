@@ -97,7 +97,7 @@ const NavBar = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" elevation={4}>
         <Toolbar>
           <IconButton
             edge="start"

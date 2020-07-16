@@ -1,6 +1,5 @@
 import React from 'react';
 import { Router, Redirect } from '@reach/router';
-import styled from 'styled-components';
 import './assets/css/variables.css';
 // import './assets/css/flex.css';
 import Login from './pages/login';
@@ -8,11 +7,6 @@ import SignUp from './pages/signup';
 import Todoodler from './pages/todoodler';
 import NotFound from './pages/NotFound';
 import { useAuthState } from './auth/AuthContext';
-
-const AppLayout = styled.section`
-  margin: 0px;
-  padding: 0px;
-`;
 
 const PrivateRoute = ({
   /*
@@ -31,7 +25,7 @@ const PrivateRoute = ({
 };
 
 const App = () => (
-  <AppLayout>
+  <>
     <Router>
       <PrivateRoute
         as={Todoodler}
@@ -41,7 +35,7 @@ const App = () => (
       <Login path="/login" />
       <NotFound default />
     </Router>
-  </AppLayout>
+  </>
 );
 
 export default App;
