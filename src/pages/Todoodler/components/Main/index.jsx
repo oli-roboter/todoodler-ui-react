@@ -1,17 +1,36 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { getTodos } from '../../../../services/api/todo';
+// import { useAuthState } from '../../auth/AuthContext';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    gridColumn: 2,
+    gridRow: 2,
+    margin: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+}));
 
-const Layout = styled.section`
-  grid-column: 2;
-  grid-row: 2;
-  // border: 1px solid grey;
-  // background-color: green;
-`;
+const Main = () => {
+  const classes = useStyles();
+  const [todos, setTodos] = useState([]);
 
-const Main = () => (
-  <Layout>
-    <h1>Main app area</h1>
-  </Layout>
-);
+  useEffect(() => {
+    getTodos()
+      .then((todosFromServer) => {
+        console.log('Todos from server:', todosFromServer);
+        setTodos([todosFromServer]);
+      });
+  }, []);
+
+  return (
+    <div className={classes.root}>
+      <h1>Main app area</h1>
+      <pre>{JSON.stringify(todos, null, 2)}</pre>
+    </div>
+  );
+};
 
 export default Main;

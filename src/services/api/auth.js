@@ -1,16 +1,7 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
 import { AUTH } from '../../config';
-
-const storageHandler = {
-  save: (userInfo) => {
-    const { token, username, workGroup } = userInfo.data.data;
-    const user = { token, username, workGroup };
-    localStorage.setItem('user', JSON.stringify(user));
-  },
-  get: (key) => localStorage.getItem(key),
-  clear: () => localStorage.clear(),
-};
+import storageHandler from '../storageHandler';
 
 export const login = async (username, password) => {
   const url = `${AUTH}/login`;
@@ -28,7 +19,7 @@ export const login = async (username, password) => {
 };
 
 // export const authenticate = async () => {
-//   const user = JSON.parse(storageHandler.get('user'));
+//   const user = storageHandler.getUserCredentials();
 
 //   if (!user) return false;
 
@@ -49,7 +40,7 @@ export const login = async (username, password) => {
 // };
 
 export const getUserFromSession = async () => {
-  const user = await JSON.parse(storageHandler.get('user'));
+  const user = await storageHandler.getUserCredentials();
   if (!user) return false;
   return user;
 };
