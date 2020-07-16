@@ -3,6 +3,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
+import { addTodo } from '../../../services/api/todo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,8 +36,17 @@ const AddTodoBtn = withStyles((theme) => ({
 const AddTodo = () => {
   const classes = useStyles();
 
-  const handleClick = () => {
-    console.log('creatin new todo');
+  const handleClick = async () => {
+    const todoFake = {
+      username: 'Oliver',
+      dueDate: '2020-12-25',
+      assignedTo: 'Deddyinho',
+      text: 'Mortal Combat',
+      detail: 'A battle royale to the death',
+      importance: 'high',
+    };
+
+    await addTodo(todoFake);
   };
 
   return (

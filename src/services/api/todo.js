@@ -31,13 +31,16 @@ export const getTodos = async () => {
 
 export const addTodo = async (todo) => {
   const user = await getUserFromSession();
+  const { token } = user;
+  const headers = { 'x-todo-token': token };
   const url = `${TODO}/todo`;
-
   try {
-    const response = await axios.post(url, {
-      todo,
+    const response = await axios.post(url, todo, {
+      headers,
     });
+    return { data: response.data, statusCode: response.status };
   } catch (err) {
     console.error('Erro', err.response);
+    return { error: err.response.data, statusCode: err.response.status };
   }
-}
+};
