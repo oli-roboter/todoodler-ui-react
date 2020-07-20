@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
-import Header from './components/Header';
-import AddTodo from './components/AddTodo';
-import User from './components/User';
+import Header from './Header';
+import AddTodo from './AddTodo';
+import Users from './Users';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,9 +45,7 @@ const Sidemenu = () => {
       <Divider variant="fullWidth" />
       <div className={classes.users}>
         <Typography variant="h6">Users</Typography>
-        <User username="Peeta" filter={onFilter} />
-        <User username="Benjamin Bunny" filter={onFilter} />
-        <User username="Lily Bobtail" filter={onFilter} />
+        <Users filter={onFilter} />
       </div>
       <Divider variant="fullWidth" />
       <pre>{JSON.stringify(filteredUsers, null, 2)}</pre>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -13,11 +13,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const User = ({ username, filter }) => {
+const User = memo(({ username, filter }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event) => {
+    console.log('HandleChange');
     setChecked(event.target.checked);
     filter(username, checked);
   };
@@ -37,6 +38,6 @@ const User = ({ username, filter }) => {
       </Typography>
     </div>
   );
-};
+});
 
 export default User;
