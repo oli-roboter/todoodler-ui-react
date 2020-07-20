@@ -1,6 +1,8 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getTodos } from '../../../../services/api/todo';
+import Todo from './Todo';
 // import { useAuthState } from '../../auth/AuthContext';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +30,7 @@ const Main = () => {
   return (
     <div className={classes.root}>
       <h1>Main app area</h1>
-      <pre>{JSON.stringify(todos, null, 2)}</pre>
+      {todos.map((todo, idx) => <Todo key={idx} todo={todo.data.data[0]} />)}
     </div>
   );
 };
