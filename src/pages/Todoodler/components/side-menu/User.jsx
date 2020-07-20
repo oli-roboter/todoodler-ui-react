@@ -18,7 +18,6 @@ const User = memo(({ username, filter }) => {
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event) => {
-    console.log('HandleChange');
     setChecked(event.target.checked);
     filter(username, checked);
   };

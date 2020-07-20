@@ -25,6 +25,7 @@ import Todo from './Todo';
 //   },
 // });
 
+// CHECK IF memo CAN BE USED TO PREVENT THIS COMPONENT FROM RERENDERING IF NOTHING HAS CHANGED
 export default function Section({ todos, title }) {
   // const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;

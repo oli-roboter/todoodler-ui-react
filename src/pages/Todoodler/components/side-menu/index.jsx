@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
 import Header from './Header';
 import AddTodo from './AddTodo';
-import Users from './Users';
+import User from './User';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,21 +22,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Sidemenu = () => {
+const Sidemenu = ({ users, filteredUsers, filter }) => {
   const classes = useStyles();
-
-  const [filteredUsers, setFilteredUsers] = useState([]);
-
-  const onFilter = (username, checked) => {
-    let users;
-    if (checked) {
-      users = [...filteredUsers];
-      users.push(username);
-    } else {
-      users = filteredUsers.filter((user) => user !== username);
-    }
-    setFilteredUsers(users);
-  };
 
   return (
     <aside className={classes.root}>
@@ -45,7 +32,7 @@ const Sidemenu = () => {
       <Divider variant="fullWidth" />
       <div className={classes.users}>
         <Typography variant="h6">Users</Typography>
-        <Users filter={onFilter} />
+        {users.map(({ _id, username }) => <User key={_id} username={username} filter={filter} />)}
       </div>
       <Divider variant="fullWidth" />
       <pre>{JSON.stringify(filteredUsers, null, 2)}</pre>

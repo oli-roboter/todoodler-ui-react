@@ -1,9 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import { getTodos } from '../../../../services/api/todo';
-import Todo from './Todo';
 import Section from './Section';
 // import { useAuthState } from '../../auth/AuthContext';
 const useStyles = makeStyles((theme) => ({
@@ -24,17 +22,8 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-const Main = () => {
+const Main = ({ todos }) => {
   const classes = useStyles();
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    getTodos()
-      .then((todosFromServer) => {
-        // console.log('Todos from server:', todosFromServer);
-        setTodos(todosFromServer.data.data);
-      });
-  }, []);
 
   const overdue = todos.filter((todo) => Date.now() > todo.createdOn);
   const notOverdue = todos.filter((todo) => Date.now() <= todo.createdOn);
