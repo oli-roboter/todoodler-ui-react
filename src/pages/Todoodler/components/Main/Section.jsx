@@ -26,10 +26,9 @@ import Todo from './Todo';
 // });
 
 // CHECK IF memo CAN BE USED TO PREVENT THIS COMPONENT FROM RERENDERING IF NOTHING HAS CHANGED
-export default function Section({ todos, title }) {
+function Section({ todos, title }) {
   // const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;
-  console.log('Section', todos, title);
   return (
     <div>
       <h1>{title}</h1>
@@ -51,3 +50,11 @@ export default function Section({ todos, title }) {
     </div>
   );
 }
+
+function areTodosEqual(prevProps, nextProps) {
+  return prevProps.todos.length === nextProps.todos.length;
+}
+
+const MemoSection = React.memo(Section, areTodosEqual);
+
+export default MemoSection;

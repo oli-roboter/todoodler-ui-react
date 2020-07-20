@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { getTodos } from '../../../../services/api/todo';
 import Section from './Section';
 // import { useAuthState } from '../../auth/AuthContext';
 const useStyles = makeStyles((theme) => ({
