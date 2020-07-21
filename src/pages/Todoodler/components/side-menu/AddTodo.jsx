@@ -39,10 +39,10 @@ const AddTodo = () => {
   const handleClick = async () => {
     const todoFake = {
       username: 'Oliver',
-      dueDate: '2020-12-25',
-      assignedTo: 'Deddyinho',
-      text: 'Mortal Combat',
-      detail: 'A battle royale to the death',
+      dueDate: '2020-06-27',
+      assignedTo: 'Oliver',
+      text: 'Bim bim de deito',
+      detail: 'Transar com a esposa no deito',
       importance: 'high',
     };
 
