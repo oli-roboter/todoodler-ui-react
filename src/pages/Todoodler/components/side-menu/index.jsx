@@ -1,7 +1,12 @@
+/* eslint-disable react/jsx-boolean-value */
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
+import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
+
+import sectionNames from '../../constants';
 
 import Header from './Header';
 import AddTodo from './AddTodo';
@@ -16,37 +21,82 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid lightGrey',
     // backgroundColor: theme.palette.primary.light,
   },
-  users: {
+  usersTitle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
     marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(5),
+  },
+  users: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     flexGrow: 1,
   },
 }));
 
-const Sidemenu = ({
-  todos, users, filteredUsers, filter,
-}) => {
+const HtmlTooltip = withStyles((theme) => ({
+  tooltip: {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#f5f5f9',
+    color: 'rgba(0, 0, 0, 0.87)',
+    maxWidth: 400,
+    fontSize: theme.typography.pxToRem(10),
+    border: '1px solid #dadde9',
+    borderRadius: '5px',
+    padding: theme.spacing(1),
+  },
+}))(Tooltip);
+
+// add memo
+const Sidemenu = ({ todos, users, filter }) => {
   const classes = useStyles();
 
   const userTodos = (username) => todos.filter((todo) => todo.assignedTo === username);
+  const {
+    section1, section2, section3, section4,
+  } = sectionNames;
+  const toolTipLabel = `${section1}|${section2}|${section3}|${section4}`;
 
   return (
     <aside className={classes.root}>
       <Header version="0.1.0" />
       <AddTodo />
       <Divider variant="fullWidth" />
-      <div className={classes.users}>
+      <span className={classes.usersTitle}>
         <Typography variant="h6">Users</Typography>
-        {users.map(({ _id, username }) => (
+        <HtmlTooltip
+          placement="right-start"
+          arrow
+          title={(
+            <>
+              <Typography
+                color="inherit"
+                variant="caption"
+                align="center"
+                paragraph={true}
+              >
+                Number of todos in each section
+              </Typography>
+              <Chip label={toolTipLabel} />
+            </>
+          )}
+        >
+          <Typography variant="subtitle1">Statistics</Typography>
+        </HtmlTooltip>
+      </span>
+      <div className={classes.users}>
+        {users.map(({ _id, username, colour }) => (
           <User
             key={_id}
             username={username}
             userTodos={userTodos(username)}
             filter={filter}
+            colour={colour}
           />
         ))}
       </div>
-      <Divider variant="fullWidth" />
-      <pre>{JSON.stringify(filteredUsers, null, 2)}</pre>
     </aside>
   );
 };
