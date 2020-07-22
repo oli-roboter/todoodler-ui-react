@@ -5,11 +5,13 @@ import NavBar from '../../components/navbar';
 import Main from './components/Main';
 import { getTodos } from '../../services/api/todo';
 import { getWorkGroupUsers } from '../../services/api/users';
+import colours from '../../assets/colours';
+import colorInjector from './utils/inject-colour';
 
 const Layout = styled.section`
   display: grid;
   grid-template-rows: 70px auto;
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: 1fr 5fr;
   width: 100vw;
   height: 90vh;
 `;
@@ -26,8 +28,11 @@ const Todoodler = () => {
 
     Promise.all([usersPromise, todosPromise])
       .then(([resolvedUsers, resolvedTodos]) => {
-        setTodos(resolvedTodos.data.data);
-        setUsers(resolvedUsers.data.data.users);
+        const injectColour = colorInjector(colours);
+        const usersWithColour = injectColour.inUsers(resolvedUsers.data.data.users);
+        const userWithColourInTodo = injectColour.inTodos(resolvedTodos.data.data, usersWithColour);
+        setUsers(usersWithColour);
+        setTodos(userWithColourInTodo);
       });
   }, []);
 
@@ -48,7 +53,6 @@ const Todoodler = () => {
       <SideMenu
         todos={todos}
         users={users}
-        filteredUsers={filteredUsers}
         filter={onFilter}
       />
       <Main todos={todos} filteredUsers={filteredUsers} />

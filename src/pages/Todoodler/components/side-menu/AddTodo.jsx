@@ -39,10 +39,10 @@ const AddTodo = () => {
   const handleClick = async () => {
     const todoFake = {
       username: 'Oliver',
-      dueDate: '2020-06-27',
-      assignedTo: 'Oliver',
-      text: 'Bim bim de deito',
-      detail: 'Transar com a esposa no deito',
+      dueDate: '2020-07-31',
+      assignedTo: 'Kari',
+      text: 'Ligar pro Edsu',
+      detail: 'Conversar com Edsu e Mamae Mitiko',
       importance: 'high',
     };
 

@@ -1,14 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  check: {
-    paddingLeft: 0,
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(0.5),
   },
 }));
 
@@ -19,21 +16,10 @@ const UserStats = ({ stats }) => {
   const due2 = stats.due2.length;
   const due3 = stats.due3.length;
 
+  const text = `${overdue}|${due1}|${due2}|${due3}`;
+
   return (
-    <div className={classes.root}>
-      <Typography variant="body2">
-        {overdue}
-      </Typography>
-      <Typography variant="body2">
-        {due1}
-      </Typography>
-      <Typography variant="body2">
-        {due2}
-      </Typography>
-      <Typography variant="body2">
-        {due3}
-      </Typography>
-    </div>
+    <Chip className={classes.root} label={text} size="small" />
   );
 };
 
