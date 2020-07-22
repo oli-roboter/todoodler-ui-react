@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Section from './Section';
 import timeSlotCalculation from '../../utils/time-categories';
+import sectionNames from '../../constants';
 // import { useAuthState } from '../../auth/AuthContext';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,15 +12,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     display: 'grid',
     gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    height: '90vh',
     // display: 'flex',
     // flexDirection: 'column',
     // alignItems: 'center',
   },
-  // section: {
-  //   display: 'grid',
-  //   gridTemplateColumns: '1fr 1fr 1fr 1fr',
-  //   height: 90vh;
-  // },
 }));
 
 const Main = ({ todos, filteredUsers }) => {
@@ -34,10 +31,10 @@ const Main = ({ todos, filteredUsers }) => {
 
   return (
     <div className={classes.root}>
-      <Section todos={overdue} title="Fudeu" />
-      <Section todos={due1} title="Almost Fudeu" />
-      <Section todos={due2} title="Se cuida" />
-      <Section todos={due3} title="Ta relax" />
+      <Section todos={overdue} title={sectionNames.section1} />
+      <Section todos={due1} title={sectionNames.section2} />
+      <Section todos={due2} title={sectionNames.section3} />
+      <Section todos={due3} title={sectionNames.section4} />
     </div>
   );
 };
