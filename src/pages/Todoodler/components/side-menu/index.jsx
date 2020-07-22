@@ -22,8 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Sidemenu = ({ users, filteredUsers, filter }) => {
+const Sidemenu = ({
+  todos, users, filteredUsers, filter,
+}) => {
   const classes = useStyles();
+
+  const userTodos = (username) => todos.filter((todo) => todo.assignedTo === username);
 
   return (
     <aside className={classes.root}>
@@ -32,7 +36,14 @@ const Sidemenu = ({ users, filteredUsers, filter }) => {
       <Divider variant="fullWidth" />
       <div className={classes.users}>
         <Typography variant="h6">Users</Typography>
-        {users.map(({ _id, username }) => <User key={_id} username={username} filter={filter} />)}
+        {users.map(({ _id, username }) => (
+          <User
+            key={_id}
+            username={username}
+            userTodos={userTodos(username)}
+            filter={filter}
+          />
+        ))}
       </div>
       <Divider variant="fullWidth" />
       <pre>{JSON.stringify(filteredUsers, null, 2)}</pre>

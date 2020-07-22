@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
 import Section from './Section';
+import timeSlotCalculation from '../../utils/time-categories';
 // import { useAuthState } from '../../auth/AuthContext';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,25 +25,12 @@ const useStyles = makeStyles((theme) => ({
 const Main = ({ todos, filteredUsers }) => {
   const classes = useStyles();
 
-  const dateLimits = {
-    now: moment(),
-    limit1: moment().add(7, 'days'),
-    limit2: moment().add(14, 'days'),
-  };
+  const timeSlots = timeSlotCalculation(todos);
 
-  const overdue = todos.filter((todo) => dateLimits.now > moment(todo.dueDate)
-    && !filteredUsers.includes(todo.assignedTo));
-
-  const due1 = todos.filter((todo) => dateLimits.now <= moment(todo.dueDate)
-    && moment(todo.dueDate) <= dateLimits.limit1
-    && !filteredUsers.includes(todo.assignedTo));
-
-  const due2 = todos.filter((todo) => dateLimits.limit1 <= moment(todo.dueDate)
-    && moment(todo.dueDate) <= dateLimits.limit2
-    && !filteredUsers.includes(todo.assignedTo));
-
-  const due3 = todos.filter((todo) => dateLimits.limit2 < moment(todo.dueDate)
-    && !filteredUsers.includes(todo.assignedTo));
+  const overdue = timeSlots.overdue.filter((todo) => !filteredUsers.includes(todo.assignedTo));
+  const due1 = timeSlots.due1.filter((todo) => !filteredUsers.includes(todo.assignedTo));
+  const due2 = timeSlots.due2.filter((todo) => !filteredUsers.includes(todo.assignedTo));
+  const due3 = timeSlots.due3.filter((todo) => !filteredUsers.includes(todo.assignedTo));
 
   return (
     <div className={classes.root}>

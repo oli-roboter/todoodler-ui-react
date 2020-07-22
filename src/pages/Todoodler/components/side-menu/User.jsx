@@ -2,6 +2,8 @@ import React, { useState, memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import timeSlotCalculator from '../../utils/time-categories';
+import UserStats from './UserStats';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const User = memo(({ username, filter }) => {
+const User = memo(({ username, userTodos, filter }) => {
   const classes = useStyles();
   const [checked, setChecked] = useState(true);
 
@@ -21,6 +23,8 @@ const User = memo(({ username, filter }) => {
     setChecked(event.target.checked);
     filter(username, checked);
   };
+
+  const userStats = timeSlotCalculator(userTodos);
 
   return (
     <div className={classes.root}>
@@ -35,6 +39,7 @@ const User = memo(({ username, filter }) => {
       <Typography variant="body2">
         {username}
       </Typography>
+      <UserStats stats={userStats} />
     </div>
   );
 });

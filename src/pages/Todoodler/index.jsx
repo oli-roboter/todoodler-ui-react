@@ -45,7 +45,12 @@ const Todoodler = () => {
   return (
     <Layout>
       <NavBar />
-      <SideMenu users={users} filteredUsers={filteredUsers} filter={onFilter} />
+      <SideMenu
+        todos={todos}
+        users={users}
+        filteredUsers={filteredUsers}
+        filter={onFilter}
+      />
       <Main todos={todos} filteredUsers={filteredUsers} />
     </Layout>
   );
