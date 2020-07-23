@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
+import TodoModal from '../todo-modal';
 import { addTodo } from '../../../../services/api/todo';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,28 +36,21 @@ const AddTodoBtn = withStyles((theme) => ({
 
 const AddTodo = () => {
   const classes = useStyles();
+  const [open, setOpen] = useState(true);
 
-  const handleClick = async () => {
-    const todoFake = {
-      username: 'Oliver',
-      dueDate: '2020-07-31',
-      assignedTo: 'Kari',
-      text: 'Ligar pro Edsu',
-      detail: 'Conversar com Edsu e Mamae Mitiko',
-      importance: 'high',
-    };
-
-    await addTodo(todoFake);
-  };
+  const handleOpen = async () => setOpen(true);
+  // await addTodo(todoFake);
+  const handleClose = async () => setOpen(false);
 
   return (
     <div className={classes.root}>
-      <AddTodoBtn onClick={handleClick}>
+      <AddTodoBtn onClick={handleOpen}>
         <Typography variant="h6" className={classes.buttonText}>
           Todo
         </Typography>
         <AddCircleOutlineIcon />
       </AddTodoBtn>
+      <TodoModal open={open} onClose={handleClose} />
     </div>
   );
 };

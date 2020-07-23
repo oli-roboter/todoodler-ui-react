@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SideMenu from './components/side-menu';
 import NavBar from '../../components/navbar';
-import Main from './components/Main';
+import Main from './components/main';
 import { getTodos } from '../../services/api/todo';
 import { getWorkGroupUsers } from '../../services/api/users';
 import colours from '../../assets/colours';
