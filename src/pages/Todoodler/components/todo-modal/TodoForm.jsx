@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
+// import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
@@ -13,27 +13,31 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // margin: theme.spacing(2),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   formControl: {
-    width: '100%',
+    margin: theme.spacing(0),
+    minWidth: 300,
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    // margin: theme.spacing(2),
+  flexRow: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(1),
   },
-  // submit: {
-  //   margin: theme.spacing(3, 0, 2),
-  // },
+  datePicker: {
+    marginRight: theme.spacing(1),
+  },
+  submit: {
+    marginTop: theme.spacing(2),
+  },
+  textField: {
+    marginTop: theme.spacing(1),
+  },
+  title: {
+    textAlign: 'center',
+  },
   // error: {
   //   marginTop: theme.spacing(1),
   // },
@@ -53,10 +57,10 @@ const initialState = {
   text: '',
   detail: '',
   importance: '',
-  status: '',
+  status: 'active',
 };
 
-function TodoForm() {
+function TodoForm({ onClose, addTodo }) {
   const classes = useStyles();
   const [state, setState] = useState(initialState);
   const {
@@ -74,140 +78,143 @@ function TodoForm() {
   } = state;
   const [selectedDate, setSelectedDate] = React.useState(dueDate);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
   const handleInput = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
 
-  const todoFake = {
-    username: 'Oliver',
-    dueDate: '2020-07-31',
-    assignedTo: 'Kari',
-    text: 'Ligar pro Edsu',
-    detail: 'Conversar com Edsu e Mamae Mitiko',
-    importance: 'high',
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting');
+    console.log('Submitting', state);
+    await addTodo({ todo: state });
+    onClose();
   };
 
   // console.log(state);
   return (
-    <>
-      <Container
-        component="main"
-        maxWidth="xs"
-        disableGutters={true}
-      >
-        <div className={classes.paper}>
-          <Typography variant="h6" className={classes.buttonText}>
-            New Todo
-          </Typography>
-          <form className={classes.form} noValidate>
-            <FormControl
-              fullWidth={true}
-              variant="outlined"
-              required
-            >
-              <InputLabel id="demo-simple-select-error-label">Assigned to</InputLabel>
-              <Select
-                labelId="demo-simple-select-error-label"
-                id="demo-simple-select-error"
-                name="assignedTo"
-                value={assignedTo}
-                onChange={handleInput}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="Oliver">Oliver</MenuItem>
-                <MenuItem value="Kari">Kari</MenuItem>
-                <MenuItem value="Karolina">Karolina</MenuItem>
-              </Select>
-              {/* <FormHelperText></FormHelperText> */}
-            </FormControl>
-            <TextField
-              variant="outlined"
+    <Container
+      component="main"
+      maxWidth="sm"
+      disableGutters={true}
+    >
+      <form>
+        <Typography variant="h6" className={classes.title}>
+          New Todo
+        </Typography>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          // required
+          fullWidth
+          id="title"
+          label="Title"
+          name="text"
+          value={text}
+          onChange={handleInput}
+          autoFocus
+        />
+        <TextField
+          className={classes.textField}
+          variant="outlined"
+          margin="normal"
+          multiline
+          rowsMax={5}
+          // required
+          fullWidth
+          id="detail"
+          label="Description"
+          name="detail"
+          value={detail}
+          onChange={handleInput}
+        />
+
+        <div className={classes.flexRow}>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <KeyboardDatePicker
+              className={classes.datePicker}
+              disableToolbar
+              variant="dialog"
+              format="DD/MM/YYYY"
               margin="normal"
-              required
-              fullWidth
-              id="title"
-              label="Title"
-              name="text"
-              value={text}
-              onChange={handleInput}
-              autoFocus
+              id="date-picker-inline"
+              label="Due Date"
+              value={selectedDate}
+              onChange={setSelectedDate}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="detail"
-              label="Description"
-              name="detail"
-              value={detail}
+          </MuiPickersUtilsProvider>
+          <FormControl variant="outlined" fullWidth className={classes.formControl}>
+            <InputLabel id="importance-input-label">Importance</InputLabel>
+            <Select
+              labelId="importance-label"
+              id="importance-select"
+              name="importance"
+              value={importance}
               onChange={handleInput}
-              autoFocus
-            />
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="DD/MM/YYYY"
-                margin="normal"
-                id="date-picker-inline"
-                label="Date picker inline"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
-            <FormControl
-              fullWidth={true}
-              variant="outlined"
-              required
+              label="Importance"
             >
-              <InputLabel id="demo-simple-select-error-label">Assigned to</InputLabel>
-              <Select
-                labelId="bla"
-                id="bla"
-                name="importance"
-                value={importance}
-                onChange={handleInput}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="High">Oliver</MenuItem>
-                <MenuItem value="Medium">Kari</MenuItem>
-                <MenuItem value="Low">Karolina</MenuItem>
-              </Select>
-              {/* <FormHelperText></FormHelperText> */}
-            </FormControl>
-            <Button
-              disabled={false}
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              className={classes.submit}
-            >
-              Aperte aqui
-            </Button>
-          </form>
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="High">High</MenuItem>
+              <MenuItem value="Medium">Medium</MenuItem>
+              <MenuItem value="Low">Low</MenuItem>
+            </Select>
+          </FormControl>
         </div>
-      </Container>
-    </>
+
+        <FormControl variant="outlined" fullWidth className={classes.formControl}>
+          <InputLabel id="assignedTo-input-label">Assigned to</InputLabel>
+          <Select
+            labelId="assignedTo-label"
+            id="assignedTo-select"
+            name="assignedTo"
+            value={assignedTo}
+            onChange={handleInput}
+            label="Assigned to"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="Oliver">Oliver</MenuItem>
+            <MenuItem value="Kari">Kari</MenuItem>
+            <MenuItem value="Karolina">Karolina</MenuItem>
+          </Select>
+        </FormControl>
+
+        <div className={classes.flexRow}>
+          <Button
+            className={classes.submit}
+            style={{ marginRight: '4px' }}
+            disabled={false}
+            type="submit"
+            size="large"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Add
+          </Button>
+          <br />
+          <Button
+            className={classes.submit}
+            style={{ marginLeft: '4px' }}
+            disabled={false}
+            type="submit"
+            size="large"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
+        </div>
+      </form>
+    </Container>
   );
 }
 

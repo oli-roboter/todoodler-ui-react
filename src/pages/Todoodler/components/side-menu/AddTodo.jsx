@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
 import TodoModal from '../todo-modal';
-import { addTodo } from '../../../../services/api/todo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,9 +33,9 @@ const AddTodoBtn = withStyles((theme) => ({
   },
 }))(IconButton);
 
-const AddTodo = () => {
+const AddTodo = ({ addTodo }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = async () => setOpen(true);
   // await addTodo(todoFake);
@@ -50,7 +49,7 @@ const AddTodo = () => {
         </Typography>
         <AddCircleOutlineIcon />
       </AddTodoBtn>
-      <TodoModal open={open} onClose={handleClose} />
+      <TodoModal open={open} onClose={handleClose} addTodo={addTodo} />
     </div>
   );
 };

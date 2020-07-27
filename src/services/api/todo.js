@@ -29,11 +29,13 @@ export const getTodos = async () => {
 
 export const addTodo = async (todo) => {
   const user = await getUserFromSession();
-  const { token } = user;
+  const { token, username, workGroup } = user;
+  todo.author = username;
+  todo.workGroup = workGroup;
   const headers = { 'x-todo-token': token };
   const url = `${TODO}/todo`;
   try {
-    const response = await axios.post(url, todo, {
+    const response = await axios.post(url, { username, ...todo }, {
       headers,
     });
     return { data: response.data, statusCode: response.status };

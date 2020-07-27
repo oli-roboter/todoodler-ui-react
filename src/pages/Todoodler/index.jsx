@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SideMenu from './components/side-menu';
 import NavBar from '../../components/navbar';
 import Main from './components/main';
-import { getTodos } from '../../services/api/todo';
+import { getTodos, addTodo } from '../../services/api/todo';
 import { getWorkGroupUsers } from '../../services/api/users';
 import colours from '../../assets/colours';
 import colorInjector from './utils/inject-colour';
@@ -47,6 +47,18 @@ const Todoodler = () => {
     setFilteredUsers(usersToDisplay);
   };
 
+  const newTodo = async ({ todo }) => {
+    const updatedTodos = await addTodo(todo);
+    if (updatedTodos.error) {
+      //todo: change for notification, without ok, so modal does not close
+      alert(updatedTodos.error.error, updatedTodos.statusCode);
+      return;
+    }
+    // console.log('updatedTodos', updatedTodos);
+    // const addedTodos = [[...todos, updatedTodos.data.data]];
+    setTodos([...todos, updatedTodos.data.data]);
+  };
+
   return (
     <Layout>
       <NavBar />
@@ -54,6 +66,7 @@ const Todoodler = () => {
         todos={todos}
         users={users}
         filter={onFilter}
+        addTodo={newTodo}
       />
       <Main todos={todos} filteredUsers={filteredUsers} />
     </Layout>

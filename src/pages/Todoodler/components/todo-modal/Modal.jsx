@@ -3,7 +3,6 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
-// import { addTodo } from '../../../../services/api/todo';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -21,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalWithFade = ({ open, onClose, component }) => {
+const ModalWithFade = ({
+  open, onClose, component, addTodo,
+}) => {
   const classes = useStyles();
   const TodoForm = component;
   return (
@@ -39,7 +40,7 @@ const ModalWithFade = ({ open, onClose, component }) => {
     >
       <Fade in={open} timeout={500}>
         <div className={classes.paper}>
-          <TodoForm />
+          <TodoForm onClose={onClose} addTodo={addTodo} />
         </div>
       </Fade>
     </Modal>

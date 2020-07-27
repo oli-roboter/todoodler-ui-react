@@ -50,7 +50,9 @@ const HtmlTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 // add memo
-const Sidemenu = ({ todos, users, filter }) => {
+const Sidemenu = ({
+  todos, users, filter, addTodo,
+}) => {
   const classes = useStyles();
 
   const userTodos = (username) => todos.filter((todo) => todo.assignedTo === username);
@@ -62,7 +64,7 @@ const Sidemenu = ({ todos, users, filter }) => {
   return (
     <aside className={classes.root}>
       <Header version="0.1.0" />
-      <AddTodo />
+      <AddTodo addTodo={addTodo} />
       <Divider variant="fullWidth" />
       <span className={classes.usersTitle}>
         <Typography variant="h6">Users</Typography>
