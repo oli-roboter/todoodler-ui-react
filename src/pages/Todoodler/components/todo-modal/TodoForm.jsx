@@ -15,6 +15,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import validateInput from '../../../../services/input-validation/rules';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -46,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
+const validationRuleMap = {
+  text: 'title',
+  detail: 'detail',
+};
+
 const initialState = {
   author: '',
   workGroup: '',
@@ -64,19 +70,10 @@ function TodoForm({ onClose, addTodo }) {
   const classes = useStyles();
   const [state, setState] = useState(initialState);
   const {
-    author,
-    workGroup,
-    modifiedOn,
-    completedOn,
-    deletedOn,
-    dueDate,
-    assignedTo,
-    text,
-    detail,
-    importance,
-    status,
+    dueDate, assignedTo, text, detail, importance,
   } = state;
-  const [selectedDate, setSelectedDate] = React.useState(dueDate);
+  const [selectedDate, setSelectedDate] = useState(dueDate);
+  const [error, setError] = useState({});
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -90,7 +87,12 @@ function TodoForm({ onClose, addTodo }) {
     onClose();
   };
 
-  // console.log(state);
+  const validate = (e) => {
+    const { name, value } = e.target;
+    const validationError = validateInput(validationRuleMap[name], value);
+    setError({ ...error, [name]: validationError });
+  };
+
   return (
     <Container
       component="main"
@@ -102,6 +104,7 @@ function TodoForm({ onClose, addTodo }) {
           New Todo
         </Typography>
         <TextField
+          error={!!error.text}
           variant="outlined"
           margin="normal"
           // required
@@ -111,9 +114,12 @@ function TodoForm({ onClose, addTodo }) {
           name="text"
           value={text}
           onChange={handleInput}
+          onBlur={validate}
+          helperText={error.text}
           autoFocus
         />
         <TextField
+          error={!!error.detail}
           className={classes.textField}
           variant="outlined"
           margin="normal"
@@ -126,6 +132,8 @@ function TodoForm({ onClose, addTodo }) {
           name="detail"
           value={detail}
           onChange={handleInput}
+          onBlur={validate}
+          helperText={error.detail}
         />
 
         <div className={classes.flexRow}>
