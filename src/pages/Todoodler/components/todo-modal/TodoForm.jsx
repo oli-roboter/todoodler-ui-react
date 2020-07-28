@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-boolean-value */
 import MomentUtils from '@date-io/moment';
 import React, { useState } from 'react';
+import { isEmpty, isNil } from 'ramda';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -66,6 +67,8 @@ const initialState = {
   status: 'active',
 };
 
+
+
 function TodoForm({ onClose, addTodo }) {
   const classes = useStyles();
   const [state, setState] = useState(initialState);
@@ -74,6 +77,9 @@ function TodoForm({ onClose, addTodo }) {
   } = state;
   const [selectedDate, setSelectedDate] = useState(dueDate);
   const [error, setError] = useState({});
+  const submissionCheck = [
+    'dueDate', 'assignedTo', 'text', 'importance',
+  ];
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -91,6 +97,12 @@ function TodoForm({ onClose, addTodo }) {
     const { name, value } = e.target;
     const validationError = validateInput(validationRuleMap[name], value);
     setError({ ...error, [name]: validationError });
+  };
+
+  const isReadyForSubmit = () => {
+    const checkCompletion = submissionCheck.every((field) => !isEmpty(state[field]));
+    const checkErrors = isEmpty(error) || Object.values(error).every((field) => isNil(field));
+    return checkCompletion && checkErrors;
   };
 
   return (
@@ -196,7 +208,7 @@ function TodoForm({ onClose, addTodo }) {
           <Button
             className={classes.submit}
             style={{ marginRight: '4px' }}
-            disabled={false}
+            disabled={!isReadyForSubmit()}
             type="submit"
             size="large"
             fullWidth

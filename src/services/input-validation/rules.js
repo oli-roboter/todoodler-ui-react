@@ -1,13 +1,16 @@
 import validation from './validation';
 
+const { isLongerThan, isEmpty } = validation;
+
 const rules = {
   title: [
-    { rule: (input) => validation.isLongerThan(input, 5), error: "can't be less than 5 characters" },
-    { rule: (input) => validation.isNotEmpty(input), error: "can't be empty" },
+    { rule: (input) => isLongerThan(input, 5), error: "can't be less than 5 characters" },
   ],
   detail: [
-    { rule: (input) => validation.isLongerThan(input, 5), error: "can't be less than 5 characters" },
-    { rule: (input) => validation.isNotEmpty(input), error: "can't be empty" },
+    {
+      rule: (input) => isLongerThan(input, 5) || isEmpty(input),
+      error: "can't be less than 9 characters",
+    },
   ],
 };
 
