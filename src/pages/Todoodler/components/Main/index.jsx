@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Section from './Section';
 import timeSlotCalculation from '../../utils/time-categories';
 import sectionNames from '../../constants';
-// import { useAuthState } from '../../auth/AuthContext';
+import { useTodoState } from '../../todo-context';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     gridColumn: 2,
@@ -19,8 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Main = ({ todos, filteredUsers }) => {
+const Main = () => {
   const classes = useStyles();
+  const {
+    todos,
+    filteredUsers,
+    userColours,
+  } = useTodoState();
 
   const timeSlots = timeSlotCalculation(todos);
 
@@ -31,10 +37,10 @@ const Main = ({ todos, filteredUsers }) => {
 
   return (
     <div className={classes.root}>
-      <Section todos={overdue} title={sectionNames.section1} />
-      <Section todos={due1} title={sectionNames.section2} />
-      <Section todos={due2} title={sectionNames.section3} />
-      <Section todos={due3} title={sectionNames.section4} />
+      <Section todos={overdue} title={sectionNames.section1} colours={userColours} />
+      <Section todos={due1} title={sectionNames.section2} colours={userColours} />
+      <Section todos={due2} title={sectionNames.section3} colours={userColours} />
+      <Section todos={due3} title={sectionNames.section4} colours={userColours} />
     </div>
   );
 };

@@ -3,7 +3,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
-import TodoModal from '../todo-modal';
+import Modal from '../../../../components/Modal';
+import AddTodoForm from '../todo-modal/AddTodoForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,12 +34,11 @@ const AddTodoBtn = withStyles((theme) => ({
   },
 }))(IconButton);
 
-const AddTodo = ({ addTodo }) => {
+const AddTodo = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleOpen = async () => setOpen(true);
-  // await addTodo(todoFake);
   const handleClose = async () => setOpen(false);
 
   return (
@@ -49,7 +49,11 @@ const AddTodo = ({ addTodo }) => {
         </Typography>
         <AddCircleOutlineIcon />
       </AddTodoBtn>
-      <TodoModal open={open} onClose={handleClose} addTodo={addTodo} />
+      <Modal
+        component={AddTodoForm}
+        open={open}
+        onClose={handleClose}
+      />
     </div>
   );
 };

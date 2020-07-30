@@ -20,11 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalWithFade = ({
-  open, onClose, component, addTodo,
-}) => {
+const ModalWithFade = ({ open, onClose, component }) => {
   const classes = useStyles();
-  const TodoForm = component;
+  const Component = component;
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -40,7 +38,7 @@ const ModalWithFade = ({
     >
       <Fade in={open} timeout={500}>
         <div className={classes.paper}>
-          <TodoForm onClose={onClose} addTodo={addTodo} />
+          <Component onClose={onClose} />
         </div>
       </Fade>
     </Modal>

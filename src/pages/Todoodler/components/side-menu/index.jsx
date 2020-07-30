@@ -5,6 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
+import { useTodoState } from '../../todo-context';
 
 import sectionNames from '../../constants';
 
@@ -50,21 +51,25 @@ const HtmlTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 // add memo
-const Sidemenu = ({
-  todos, users, filter, addTodo,
-}) => {
+const Sidemenu = () => {
   const classes = useStyles();
+  const {
+    todos,
+    users,
+    onFilter,
+    userColours,
+  } = useTodoState();
 
   const userTodos = (username) => todos.filter((todo) => todo.assignedTo === username);
+
   const {
     section1, section2, section3, section4,
   } = sectionNames;
   const toolTipLabel = `${section1}|${section2}|${section3}|${section4}`;
-
   return (
     <aside className={classes.root}>
       <Header version="0.1.0" />
-      <AddTodo addTodo={addTodo} />
+      <AddTodo />
       <Divider variant="fullWidth" />
       <span className={classes.usersTitle}>
         <Typography variant="h6">Users</Typography>
@@ -89,13 +94,13 @@ const Sidemenu = ({
         </HtmlTooltip>
       </span>
       <div className={classes.users}>
-        {users.map(({ _id, username, colour }) => (
+        {users.map(({ _id, username }) => (
           <User
             key={_id}
             username={username}
             userTodos={userTodos(username)}
-            filter={filter}
-            colour={colour}
+            filter={onFilter}
+            colour={userColours[username]}
           />
         ))}
       </div>

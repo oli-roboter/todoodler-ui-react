@@ -15,39 +15,18 @@ const useStyles = makeStyles({
     alignItems: 'center',
     // justifyContent: 'flex-start',
   },
-  // bullet: {
-  //   display: 'inline-block',
-  //   margin: '0 2px',
-  //   transform: 'scale(0.8)',
-  // },
-  // title: {
-  //   fontSize: 14,
-  // },
-  // pos: {
-  //   marginBottom: 12,
-  // },
 });
 
-// CHECK IF memo CAN BE USED TO PREVENT THIS COMPONENT FROM RERENDERING IF NOTHING HAS CHANGED
-function Section({ todos, title }) {
+function Section({ todos, title, colours }) {
   const classes = useStyles();
-  // const classes = useStyles();
-  // const bull = <span className={classes.bullet}>•</span>;
   return (
     <div className={classes.root}>
       <h1>{title}</h1>
-      {todos.map(({
-        todoId, author, assignedTo, dueDate, importance, text, detail, colour,
-      }) => (
+      {todos.map(({ todoId, assignedTo, ...todo }) => (
         <Todo
           key={todoId}
-          author={author}
-          assignedTo={assignedTo}
-          dueDate={dueDate}
-          importance={importance}
-          text={text}
-          detail={detail}
-          colour={colour}
+          colour={colours[assignedTo]}
+          todo={todo}
         />
       ))}
     </div>

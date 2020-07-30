@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-boolean-value */
 import MomentUtils from '@date-io/moment';
 import React, { useState } from 'react';
@@ -6,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-// import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
@@ -17,6 +17,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import validateInput from '../../../../services/input-validation/rules';
+import { useTodoState } from '../../todo-context';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 const validationRuleMap = {
   text: 'title',
   detail: 'detail',
+  dueDate: 'dueDate',
 };
 
 const initialState = {
@@ -67,15 +69,13 @@ const initialState = {
   status: 'active',
 };
 
-
-
-function TodoForm({ onClose, addTodo }) {
+function AddTodoForm({ onClose }) {
   const classes = useStyles();
+  const { users, newTodo } = useTodoState();
   const [state, setState] = useState(initialState);
   const {
     dueDate, assignedTo, text, detail, importance,
   } = state;
-  const [selectedDate, setSelectedDate] = useState(dueDate);
   const [error, setError] = useState({});
   const submissionCheck = [
     'dueDate', 'assignedTo', 'text', 'importance',
@@ -88,9 +88,12 @@ function TodoForm({ onClose, addTodo }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting', state);
-    await addTodo({ todo: state });
+    await newTodo({ todo: state });
     onClose();
+  };
+
+  const handleDate = (value) => {
+    setState({ ...state, dueDate: value });
   };
 
   const validate = (e) => {
@@ -158,8 +161,9 @@ function TodoForm({ onClose, addTodo }) {
               margin="normal"
               id="date-picker-inline"
               label="Due Date"
-              value={selectedDate}
-              onChange={setSelectedDate}
+              minDate={new Date()}
+              value={dueDate}
+              onChange={(date) => handleDate(date)}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -198,9 +202,14 @@ function TodoForm({ onClose, addTodo }) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value="Oliver">Oliver</MenuItem>
-            <MenuItem value="Kari">Kari</MenuItem>
-            <MenuItem value="Karolina">Karolina</MenuItem>
+            {users.map((user) => (
+              <MenuItem
+                key={user._id}
+                value={user.username}
+              >
+                {user.username}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
@@ -223,7 +232,7 @@ function TodoForm({ onClose, addTodo }) {
             className={classes.submit}
             style={{ marginLeft: '4px' }}
             disabled={false}
-            type="submit"
+            type="reset"
             size="large"
             fullWidth
             variant="contained"
@@ -238,4 +247,4 @@ function TodoForm({ onClose, addTodo }) {
   );
 }
 
-export default TodoForm;
+export default AddTodoForm;

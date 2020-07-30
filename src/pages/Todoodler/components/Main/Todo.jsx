@@ -7,6 +7,8 @@ import Brightness1RoundedIcon from '@material-ui/icons/Brightness1Rounded';
 import CardContent from '@material-ui/core/CardContent';
 // import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import ModalWithFade from '../../../../components/Modal';
+import EditTodoForm from '../todo-modal/EditTodoForm';
 
 const hoverGrey = grey[100];
 
@@ -31,44 +33,44 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0),
     padding: theme.spacing(0.5),
   },
-  flex:{
+  flex: {
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
 }));
 
-export default function SimpleCard({
-  author,
-  assignedTo,
-  dueDate,
-  importance,
-  text,
-  detail,
-  colour,
-}) {
+export default function SimpleCard({ todo, colour }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const { text, detail, assignedTo } = todo;
+  const openCard = () => setOpen(true);
+  const closeCard = () => setOpen(false);
+
   // const bull = <span className={classes.bullet}>•</span>;
   return (
-    <Card className={classes.root} onClick={handleClick}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary">
-          {text}
-        </Typography>
-        <Typography variant="body2" component="p">
-          {detail}
-        </Typography>
-      </CardContent>
-      <div className={classes.flex}>
-        <Brightness1RoundedIcon className={classes.dot} size="small" style={{ color: colour }} />
-        <Typography className={classes.username} variant="body2">
-          {assignedTo}
-        </Typography>
-      </div>
-    </Card>
+    <>
+      <Card className={classes.root} onClick={openCard}>
+        <CardContent>
+          <Typography className={classes.title} color="textSecondary">
+            {text}
+          </Typography>
+          <Typography variant="body2" component="p">
+            {detail}
+          </Typography>
+        </CardContent>
+        <div className={classes.flex}>
+          <Brightness1RoundedIcon className={classes.dot} size="small" style={{ color: colour }} />
+          <Typography className={classes.username} variant="body2">
+            {assignedTo}
+          </Typography>
+        </div>
+      </Card>
+      <ModalWithFade
+        component={EditTodoForm}
+        open={open}
+        onClose={closeCard}
+      />
+    </>
   );
 }
