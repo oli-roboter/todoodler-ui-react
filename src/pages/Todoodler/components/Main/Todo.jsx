@@ -40,14 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleCard({ todo, colour }) {
+export default function SimpleCard({ todoId, colour, todo: { text, detail, assignedTo } }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const { text, detail, assignedTo } = todo;
   const openCard = () => setOpen(true);
   const closeCard = () => setOpen(false);
-
-  // const bull = <span className={classes.bullet}>•</span>;
   return (
     <>
       <Card className={classes.root} onClick={openCard}>
@@ -67,10 +64,11 @@ export default function SimpleCard({ todo, colour }) {
         </div>
       </Card>
       <ModalWithFade
-        component={EditTodoForm}
         open={open}
         onClose={closeCard}
-      />
+      >
+        <EditTodoForm todoId={todoId} onClose={closeCard} />
+      </ModalWithFade>
     </>
   );
 }

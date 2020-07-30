@@ -50,10 +50,11 @@ const AddTodo = () => {
         <AddCircleOutlineIcon />
       </AddTodoBtn>
       <Modal
-        component={AddTodoForm}
         open={open}
         onClose={handleClose}
-      />
+      >
+        <AddTodoForm onClose={handleClose} />
+      </Modal>
     </div>
   );
 };
