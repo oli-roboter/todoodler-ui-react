@@ -25,9 +25,8 @@ function Section({ todos, title, colours }) {
       {todos.map(({ todoId, assignedTo, ...todo }) => (
         <Todo
           key={todoId}
-          todoId={todoId}
           colour={colours[assignedTo]}
-          todo={todo}
+          todo={{ todoId, assignedTo, ...todo }}
         />
       ))}
     </div>

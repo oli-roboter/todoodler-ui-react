@@ -40,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleCard({ todoId, colour, todo: { text, detail, assignedTo } }) {
+export default function SimpleCard({ colour, todo }) {
   const classes = useStyles();
+  const { text, detail, assignedTo } = todo;
   const [open, setOpen] = useState(false);
   const openCard = () => setOpen(true);
   const closeCard = () => setOpen(false);
@@ -67,7 +68,7 @@ export default function SimpleCard({ todoId, colour, todo: { text, detail, assig
         open={open}
         onClose={closeCard}
       >
-        <EditTodoForm todoId={todoId} onClose={closeCard} />
+        <EditTodoForm todo={todo} onClose={closeCard} />
       </ModalWithFade>
     </>
   );
