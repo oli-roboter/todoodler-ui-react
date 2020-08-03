@@ -44,3 +44,19 @@ export const addTodo = async (todo) => {
     return { error: err.response.data, statusCode: err.response.status };
   }
 };
+
+export const patchTodo = async ({ todoId, changes }) => {
+  const user = await getUserFromSession();
+  const { token, username } = user;
+  const headers = { 'x-todo-token': token };
+  const url = `${TODO}/todo/${todoId}`;
+  try {
+    const response = await axios.patch(url, { username, changes }, {
+      headers,
+    });
+    return { data: response.data, statusCode: response.status };
+  } catch (err) {
+    console.error('Erro', err.response);
+    return { error: err.response.data, statusCode: err.response.status };
+  }
+};

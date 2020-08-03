@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { addTodo, getTodos } from '../../../services/api/todo';
+import { addTodo, patchTodo, getTodos } from '../../../services/api/todo';
 import { getWorkGroupUsers } from '../../../services/api/users';
 import colours from '../../../assets/colours';
 import makeUserColours from '../utils/user-colours';
@@ -58,6 +58,21 @@ export const TodoProvider = ({ children }) => {
     setTodos([...todos, todoData]);
   };
 
+  const updateTodo = async ({ todoId, changes }) => {
+    const updatedTodo = await patchTodo({ todoId, changes });
+    if (updatedTodo.error) {
+      alert(updatedTodo.error.error, updatedTodo.statusCode);
+      return;
+    }
+    const updatedTodoData = updatedTodo.data.data;
+    const username = updatedTodoData.assignedTo;
+    const colour = userColours[username];
+    updatedTodoData.colour = colour;
+
+    const filteredTodos = todos.filter((todo) => todo.todoId !== updatedTodoData.todoId);
+    setTodos([updatedTodoData, ...filteredTodos]);
+  };
+
   return (
     <TodoContext.Provider
       value={{
@@ -67,6 +82,7 @@ export const TodoProvider = ({ children }) => {
         userColours,
         onFilter,
         newTodo,
+        updateTodo,
       }}
     >
       {children}
@@ -83,6 +99,7 @@ export const useTodoState = () => {
     userColours,
     onFilter,
     newTodo,
+    updateTodo,
   } = state;
   return {
     filteredUsers,
@@ -91,5 +108,6 @@ export const useTodoState = () => {
     userColours,
     onFilter,
     newTodo,
+    updateTodo,
   };
 };

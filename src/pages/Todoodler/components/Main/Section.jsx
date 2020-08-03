@@ -33,10 +33,12 @@ function Section({ todos, title, colours }) {
   );
 }
 
-function areTodosEqual(prevProps, nextProps) {
-  return prevProps.todos.length === nextProps.todos.length;
-}
+// function areTodosEqual(prevProps, nextProps) {
+//   return prevProps.todos.length === nextProps.todos.length;
+// }
 
-const MemoSection = React.memo(Section, areTodosEqual);
+// const MemoSection = React.memo(Section, areTodosEqual);
 
-export default MemoSection;
+// export default MemoSection;
+
+export default Section;
