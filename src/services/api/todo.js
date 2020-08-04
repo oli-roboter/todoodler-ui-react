@@ -60,3 +60,21 @@ export const patchTodo = async ({ todoId, changes }) => {
     return { error: err.response.data, statusCode: err.response.status };
   }
 };
+
+export const deleteTodo = async ({ todoId }) => {
+  const user = await getUserFromSession();
+  const { token, username } = user;
+  const headers = { 'x-todo-token': token };
+  const url = `${TODO}/todo/${todoId}`;
+  try {
+    const response = await axios.delete(url, {
+      headers,
+      data: { username },
+      params: { func: 'byId', arg: todoId },
+    });
+    return { data: response.data, statusCode: response.status };
+  } catch (err) {
+    console.error('Erro', err.response);
+    return { error: err.response.data, statusCode: err.response.status };
+  }
+}

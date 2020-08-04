@@ -5,7 +5,9 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { addTodo, patchTodo, getTodos } from '../../../services/api/todo';
+import {
+  addTodo, patchTodo, getTodos, deleteTodo,
+} from '../../../services/api/todo';
 import { getWorkGroupUsers } from '../../../services/api/users';
 import colours from '../../../assets/colours';
 import makeUserColours from '../utils/user-colours';
@@ -16,6 +18,7 @@ export const TodoProvider = ({ children }) => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [todos, setTodos] = useState([]);
   const [users, setUsers] = useState([]);
+  const [deleteMode, setDeleteMode] = useState(false);
   const [userColours, setUserColours] = useState({});
 
   useEffect(() => {
@@ -24,14 +27,14 @@ export const TodoProvider = ({ children }) => {
 
     Promise.all([usersPromise, todosPromise])
       .then(([resolvedUsers, resolvedTodos]) => {
-        //maybe build unique state will the 3 infos below and use reducer
+        // maybe build unique state will the 3 infos below and use reducer
         const userColourData = makeUserColours(colours, resolvedUsers.data.data.users);
         setUserColours(userColourData);
         setUsers(resolvedUsers.data.data.users);
         setTodos(resolvedTodos.data.data);
       })
       .catch((e) => console.error(e));
-      //do proper error handling
+    // do proper error handling
   }, []);
 
   const onFilter = (username, checked) => {
@@ -73,6 +76,18 @@ export const TodoProvider = ({ children }) => {
     setTodos([updatedTodoData, ...filteredTodos]);
   };
 
+  const removeTodo = async ({ todoId }) => {
+    const deleted = await deleteTodo({ todoId });
+    if (deleted.error) {
+      alert(deleted.error.error, deleted.statusCode);
+      return;
+    }
+    const updatedTodos = todos.filter((todo) => todo.todoId !== todoId);
+    setTodos(updatedTodos);
+  };
+
+  const activateDeleteMode = (e) => setDeleteMode(e.target.checked);
+
   return (
     <TodoContext.Provider
       value={{
@@ -80,9 +95,12 @@ export const TodoProvider = ({ children }) => {
         todos,
         users,
         userColours,
+        deleteMode,
         onFilter,
         newTodo,
         updateTodo,
+        removeTodo,
+        activateDeleteMode,
       }}
     >
       {children}
@@ -97,17 +115,23 @@ export const useTodoState = () => {
     todos,
     users,
     userColours,
+    deleteMode,
     onFilter,
     newTodo,
     updateTodo,
+    removeTodo,
+    activateDeleteMode,
   } = state;
   return {
     filteredUsers,
     todos,
     users,
     userColours,
+    deleteMode,
     onFilter,
     newTodo,
     updateTodo,
+    removeTodo,
+    activateDeleteMode,
   };
 };

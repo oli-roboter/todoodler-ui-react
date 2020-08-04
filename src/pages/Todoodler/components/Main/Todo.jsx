@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 import React, { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import grey from '@material-ui/core/colors/grey';
@@ -9,13 +10,14 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import ModalWithFade from '../../../../components/Modal';
 import EditTodoForm from '../todo-modal/EditTodoForm';
+import { useTodoState } from '../../todo-context';
 
 const hoverGrey = grey[100];
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(0.5),
-    maxWidth: 200,
+    width: 150,
     '&:hover': {
       background: hoverGrey,
       cursor: 'pointer',
@@ -38,17 +40,33 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  shaky: {
+    border: '1px solid red',
+  },
 }));
 
 export default function SimpleCard({ colour, todo }) {
   const classes = useStyles();
+  const { deleteMode, removeTodo } = useTodoState();
   const { text, detail, assignedTo } = todo;
   const [open, setOpen] = useState(false);
   const openCard = () => setOpen(true);
   const closeCard = () => setOpen(false);
+
+  const { todoId } = todo;
+
+  const deleteCard = async () => await removeTodo({ todoId });
+
+  const clickFunctionality = () => (deleteMode ? deleteCard : openCard);
+
+  const cardFormat = () => {
+    if (deleteMode) return `${classes.root} ${classes.shaky}`;
+    return `${classes.root}`;
+  };
+
   return (
     <>
-      <Card className={classes.root} onClick={openCard}>
+      <Card className={cardFormat()} onClick={clickFunctionality()}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary">
             {text}

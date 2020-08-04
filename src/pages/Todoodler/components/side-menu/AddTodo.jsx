@@ -8,16 +8,7 @@ import AddTodoForm from '../todo-modal/AddTodoForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    gridColumn: 1,
-    gridRow: '1 / span 2',
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
     marginLeft: theme.spacing(0.5),
-    // backgroundColor: theme.palette.primary.light,
-  },
-  userTitle: {
-    marginTop: theme.spacing(1),
   },
   buttonText: {
     paddingRight: theme.spacing(1),

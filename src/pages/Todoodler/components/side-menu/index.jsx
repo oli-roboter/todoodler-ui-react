@@ -12,6 +12,7 @@ import sectionNames from '../../constants';
 import Header from './Header';
 import AddTodo from './AddTodo';
 import User from './User';
+import DeleteSwitch from './DeleteSwitch';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,6 +71,7 @@ const Sidemenu = () => {
     <aside className={classes.root}>
       <Header version="0.1.0" />
       <AddTodo />
+      <DeleteSwitch />
       <Divider variant="fullWidth" />
       <span className={classes.usersTitle}>
         <Typography variant="h6">Users</Typography>

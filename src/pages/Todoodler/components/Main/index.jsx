@@ -22,11 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = () => {
   const classes = useStyles();
-  const {
-    todos,
-    filteredUsers,
-    userColours,
-  } = useTodoState();
+  const { todos, filteredUsers, userColours } = useTodoState();
 
   const timeSlots = timeSlotCalculation(todos);
 
