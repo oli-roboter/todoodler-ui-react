@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-boolean-value */
 import MomentUtils from '@date-io/moment';
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import { isEmpty, isNil } from 'ramda';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -11,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
+import Collapse from '@material-ui/core/Collapse';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {
@@ -18,9 +20,12 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import FlagIcon from '@material-ui/icons/Flag';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import IconButton from '@material-ui/core/IconButton';
 import { green, orange, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
 import { useTodoState } from '../../todo-context';
+import History from '../history/index';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -49,6 +54,15 @@ const useStyles = makeStyles((theme) => ({
     // justifyItems: 'center',
     alignItems: 'center',
   },
+  expand: {
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
 }));
 
 const validationRuleMap = {
@@ -63,10 +77,16 @@ export default function EditTodoForm({ todo, onClose }) {
   const [error, setError] = useState({});
   const [state, setState] = useState({ ...todo });
   const [checked, setChecked] = useState(true);
+  const [expanded, setExpanded] = React.useState(false);
   const initialState = { ...todo };
   const submissionCheck = [
     'dueDate', 'assignedTo', 'text', 'importance',
   ];
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   const handleInput = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
@@ -264,6 +284,24 @@ export default function EditTodoForm({ todo, onClose }) {
             Cancel
           </Button>
         </div>
+
+        <div className={classes.menuItem}>
+          <Typography>History</Typography>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </div>
+
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <History history={history} />
+        </Collapse>
       </form>
     </Container>
   );

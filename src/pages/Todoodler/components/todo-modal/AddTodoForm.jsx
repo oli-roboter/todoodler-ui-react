@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-boolean-value */
 import MomentUtils from '@date-io/moment';
 import React, { useState } from 'react';
-import { isEmpty, isNil, F } from 'ramda';
+import { isEmpty, isNil } from 'ramda';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -177,19 +177,19 @@ function AddTodoForm({ onClose }) {
             >
               <MenuItem value=""><em>None</em></MenuItem>
               <MenuItem value="High">
-                <span className={classes.flexRow} >
+                <span className={classes.flexRow}>
                   <FlagIcon style={{ color: red[500], marginRight: '8px' }} />
                   High
                 </span>
               </MenuItem>
               <MenuItem value="Medium">
-                <span className={classes.flexRow} >
+                <span className={classes.flexRow}>
                   <FlagIcon style={{ color: orange[500], marginRight: '8px' }} />
                   Medium
                 </span>
               </MenuItem>
               <MenuItem value="Low">
-                <span className={classes.flexRow} >
+                <span className={classes.flexRow}>
                   <FlagIcon style={{ color: green[500], marginRight: '8px' }} />
                   Low
                 </span>
