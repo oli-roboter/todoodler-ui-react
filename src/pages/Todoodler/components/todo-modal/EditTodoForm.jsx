@@ -17,6 +17,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import FlagIcon from '@material-ui/icons/Flag';
+import { green, orange, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
 import { useTodoState } from '../../todo-context';
 
@@ -41,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: 'center',
+  },
+  menuItem: {
+    display: 'flex',
+    // justifyItems: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -166,6 +173,7 @@ export default function EditTodoForm({ todo, onClose }) {
           <FormControl variant="outlined" fullWidth className={classes.formControl}>
             <InputLabel id="importance-input-label">Importance</InputLabel>
             <Select
+              // className={classes.menuItem}
               labelId="importance-label"
               id="importance-select"
               name="importance"
@@ -173,12 +181,24 @@ export default function EditTodoForm({ todo, onClose }) {
               onChange={handleInput}
               label="Importance"
             >
-              <MenuItem value="">
-                <em>None</em>
+              <MenuItem value="High">
+                <span className={classes.menuItem}>
+                  <FlagIcon style={{ color: red[500], marginRight: '8px' }} />
+                  High
+                </span>
               </MenuItem>
-              <MenuItem value="High">High</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
-              <MenuItem value="Low">Low</MenuItem>
+              <MenuItem value="Medium">
+                <span className={classes.menuItem}>
+                  <FlagIcon style={{ color: orange[500], marginRight: '8px' }} />
+                  Medium
+                </span>
+              </MenuItem>
+              <MenuItem value="Low">
+                <span className={classes.menuItem}>
+                  <FlagIcon style={{ color: green[500], marginRight: '8px' }} />
+                  Low
+                </span>
+              </MenuItem>
             </Select>
           </FormControl>
         </div>

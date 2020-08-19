@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-boolean-value */
 import MomentUtils from '@date-io/moment';
 import React, { useState } from 'react';
-import { isEmpty, isNil } from 'ramda';
+import { isEmpty, isNil, F } from 'ramda';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -16,6 +16,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import FlagIcon from '@material-ui/icons/Flag';
+import { green, orange, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
 import { useTodoState } from '../../todo-context';
 
@@ -41,12 +43,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: 'center',
   },
-  // error: {
-  //   marginTop: theme.spacing(1),
-  // },
-  // link: {
-  //   color: '#3f51b5',
-  // },
 }));
 
 const validationRuleMap = {
@@ -179,12 +175,25 @@ function AddTodoForm({ onClose }) {
               onChange={handleInput}
               label="Importance"
             >
-              <MenuItem value="">
-                <em>None</em>
+              <MenuItem value=""><em>None</em></MenuItem>
+              <MenuItem value="High">
+                <span className={classes.flexRow} >
+                  <FlagIcon style={{ color: red[500], marginRight: '8px' }} />
+                  High
+                </span>
               </MenuItem>
-              <MenuItem value="High">High</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
-              <MenuItem value="Low">Low</MenuItem>
+              <MenuItem value="Medium">
+                <span className={classes.flexRow} >
+                  <FlagIcon style={{ color: orange[500], marginRight: '8px' }} />
+                  Medium
+                </span>
+              </MenuItem>
+              <MenuItem value="Low">
+                <span className={classes.flexRow} >
+                  <FlagIcon style={{ color: green[500], marginRight: '8px' }} />
+                  Low
+                </span>
+              </MenuItem>
             </Select>
           </FormControl>
         </div>

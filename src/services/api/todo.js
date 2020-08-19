@@ -2,6 +2,7 @@ import axios from 'axios';
 import { TODO } from '../../config';
 import storageHandler from '../storageHandler';
 
+// export a function and get rid of the getUserFromSession in all functions
 export const getUserFromSession = async () => {
   const user = await storageHandler.getUserCredentials();
   if (!user) throw new Error('403: User not logged in');
