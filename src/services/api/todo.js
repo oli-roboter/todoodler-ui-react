@@ -15,11 +15,10 @@ export const getTodos = async () => {
   const url = `${TODO}/todo`;
   const { token, username } = user;
   const headers = { 'x-todo-token': token };
-  const queryParams = { func: 'all' };
   try {
     const response = await axios.get(url, {
       headers,
-      params: { username, queryParams },
+      params: { username, func: 'active', arg: 'none' },
     });
     return { data: response.data, statusCode: response.status };
   } catch (err) {

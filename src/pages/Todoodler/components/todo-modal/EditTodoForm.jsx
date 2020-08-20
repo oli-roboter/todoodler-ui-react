@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
@@ -76,7 +77,7 @@ export default function EditTodoForm({ todo, onClose }) {
   const { users, updateTodo } = useTodoState();
   const [error, setError] = useState({});
   const [state, setState] = useState({ ...todo });
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const initialState = { ...todo };
   const submissionCheck = [
@@ -92,7 +93,22 @@ export default function EditTodoForm({ todo, onClose }) {
     setState({ ...state, [name]: value });
   };
 
-  const handleChange = (event) => setChecked(event.target.checked);
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setState({
+        ...state,
+        completedOn: new Date(),
+        status: 'archived',
+      });
+    } else {
+      setState({
+        ...state,
+        completedOn: '',
+        status: 'active',
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,8 +120,8 @@ export default function EditTodoForm({ todo, onClose }) {
       }
     });
     const { todoId } = initialState;
-    await updateTodo({ todoId, changes });
     onClose();
+    await updateTodo({ todoId, changes });
   };
 
   const handleDate = (value) => {
@@ -120,13 +136,13 @@ export default function EditTodoForm({ todo, onClose }) {
 
   const isReadyForSubmit = () => {
     const checkCompletion = submissionCheck.every((field) => !isEmpty(state[field]));
+    // add check difference
     const checkErrors = isEmpty(error) || Object.values(error).every((field) => isNil(field));
     return checkCompletion && checkErrors;
   };
 
   const {
-    modifiedOn, completedOn, deletedOn, dueDate,
-    assignedTo, text, detail, importance, status, history,
+    dueDate, assignedTo, text, detail, importance, history,
   } = state;
 
   return (
@@ -246,15 +262,19 @@ export default function EditTodoForm({ todo, onClose }) {
             ))}
           </Select>
         </FormControl>
-        <Checkbox
-          className={classes.check}
-          checked={checked}
-          onChange={handleChange}
-          // indeterminate
-          color="primary"
-          inputProps={{ 'aria-label': 'primary checkbox' }}
+        <FormControlLabel
+          control={(
+            <Checkbox
+              className={classes.check}
+              checked={checked}
+              onChange={handleChange}
+              // indeterminate
+              color="primary"
+              inputProps={{ 'aria-label': 'primary checkbox' }}
+            />
+          )}
+          label="Mark as completed"
         />
-
         <div className={classes.flexRow}>
           <Button
             className={classes.submit}
