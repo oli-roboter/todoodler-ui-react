@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr 1fr 1fr',
     height: '90vh',
-    // display: 'flex',
-    // flexDirection: 'column',
-    // alignItems: 'center',
   },
 }));
 
