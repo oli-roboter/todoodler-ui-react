@@ -105,9 +105,8 @@ export default function SimpleCard({ colour, todo }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [showTodo, setShowTodo] = React.useState(true);
 
-  useEffect(() => {
-    return () => setShowTodo(false);
-  }, [todo.status]);
+  // on component unmount
+  useEffect(() => () => setShowTodo(false), [todo.status]);
 
   const openCard = () => setOpen(true);
   const closeCard = () => setOpen(false);
