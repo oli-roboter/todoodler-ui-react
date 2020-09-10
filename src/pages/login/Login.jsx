@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-boolean-value */
 import React, { useState } from 'react';
 import { Redirect, Link as RouterLink } from '@reach/router';
 import Avatar from '@material-ui/core/Avatar';

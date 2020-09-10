@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import SideMenu from './components/side-menu';
-import NavBar from '../../components/navbar';
-import Main from './components/main';
-import { TodoProvider } from './todo-context';
+import SideMenu from './components/side-menu/SideMenu';
+import NavBar from '../../components/navbar/Navbar';
+import Main from './components/main/Main';
+import { TodoProvider } from './todo-context/context';
 
 const Layout = styled.section`
   display: grid;

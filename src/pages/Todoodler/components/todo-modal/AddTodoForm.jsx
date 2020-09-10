@@ -19,7 +19,7 @@ import {
 import FlagIcon from '@material-ui/icons/Flag';
 import { green, orange, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
-import { useTodoState } from '../../todo-context';
+import { useTodoState } from '../../todo-context/context';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

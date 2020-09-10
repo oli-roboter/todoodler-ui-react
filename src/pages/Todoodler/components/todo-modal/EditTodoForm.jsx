@@ -25,8 +25,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 import { green, orange, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
-import { useTodoState } from '../../todo-context';
-import History from '../history/index';
+import { useTodoState } from '../../todo-context/context';
+import History from '../history/History';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

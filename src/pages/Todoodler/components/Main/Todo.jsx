@@ -15,7 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ModalWithFade from '../../../../components/Modal';
 import EditTodoForm from '../todo-modal/EditTodoForm';
 import ActionMenu from './ActionMenu';
-import { useTodoState } from '../../todo-context';
+import { useTodoState } from '../../todo-context/context';
 
 const hoverGrey = grey[100];
 

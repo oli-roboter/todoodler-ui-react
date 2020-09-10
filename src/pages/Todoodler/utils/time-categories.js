@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 const dateLimits = {
-  now: moment(), //change to today
+  now: moment(), // change to today
   limit1: moment().add(7, 'days'),
   limit2: moment().add(14, 'days'),
 };

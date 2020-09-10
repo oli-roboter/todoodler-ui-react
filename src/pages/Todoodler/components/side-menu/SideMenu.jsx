@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
-import { useTodoState } from '../../todo-context';
+import { useTodoState } from '../../todo-context/context';
 
 import sectionNames from '../../constants';
 

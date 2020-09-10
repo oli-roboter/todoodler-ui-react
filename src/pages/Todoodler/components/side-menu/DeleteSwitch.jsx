@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
 
-import { useTodoState } from '../../todo-context';
+import { useTodoState } from '../../todo-context/context';
 
 const useStyles = makeStyles((theme) => ({
   root: {
