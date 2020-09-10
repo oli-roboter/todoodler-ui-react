@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SideMenu from './components/side-menu/SideMenu';
 import NavBar from '../../components/navbar/Navbar';
 import Main from './components/main/Main';
-import { TodoProvider } from './todo-context/context';
+import { TodoProvider } from './todo-context';
 
 const Layout = styled.section`
   display: grid;

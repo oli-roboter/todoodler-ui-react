@@ -4,8 +4,8 @@ import './main.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
+// import purple from '@material-ui/core/colors/purple';
+// import green from '@material-ui/core/colors/green';
 import App from './App';
 import { AuthProvider } from './auth/AuthContext';
 

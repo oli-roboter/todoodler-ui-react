@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Section from './Section';
 import timeSlotCalculation from '../../utils/time-categories';
 import sectionNames from '../../constants';
-import { useTodoState } from '../../todo-context/context';
+import { useTodoState } from '../../todo-context';
 
 const useStyles = makeStyles((theme) => ({
   root: {

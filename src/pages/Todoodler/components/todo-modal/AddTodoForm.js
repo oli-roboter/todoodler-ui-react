@@ -2,18 +2,14 @@
 /* eslint-disable react/jsx-boolean-value */
 import MomentUtils from '@date-io/moment';
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import { isEmpty, isNil } from 'ramda';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {
@@ -21,12 +17,9 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import FlagIcon from '@material-ui/icons/Flag';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import IconButton from '@material-ui/core/IconButton';
 import { green, orange, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
-import { useTodoState } from '../../todo-context/context';
-import History from '../history/History';
+import { useTodoState } from '../../todo-context';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -50,20 +43,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: 'center',
   },
-  menuItem: {
-    display: 'flex',
-    // justifyItems: 'center',
-    alignItems: 'center',
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
 }));
 
 const validationRuleMap = {
@@ -72,56 +51,41 @@ const validationRuleMap = {
   dueDate: 'dueDate',
 };
 
-export default function EditTodoForm({ todo, onClose }) {
+const initialState = {
+  author: '',
+  workGroup: '',
+  modifiedOn: '',
+  completedOn: '',
+  deletedOn: '',
+  dueDate: new Date(),
+  assignedTo: '',
+  text: '',
+  detail: '',
+  importance: '',
+  status: 'active',
+};
+
+function AddTodoForm({ onClose }) {
   const classes = useStyles();
-  const { users, updateTodo } = useTodoState();
+  const { users, newTodo } = useTodoState();
+  const [state, setState] = useState(initialState);
+  const {
+    dueDate, assignedTo, text, detail, importance,
+  } = state;
   const [error, setError] = useState({});
-  const [state, setState] = useState({ ...todo });
-  const [checked, setChecked] = useState(false);
-  const [expanded, setExpanded] = React.useState(false);
-  const initialState = { ...todo };
   const submissionCheck = [
     'dueDate', 'assignedTo', 'text', 'importance',
   ];
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-    if (event.target.checked) {
-      setState({
-        ...state,
-        completedOn: new Date(),
-        status: 'archived',
-      });
-    } else {
-      setState({
-        ...state,
-        completedOn: '',
-        status: 'active',
-      });
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const changes = {};
-    const keys = Object.keys(state);
-    keys.forEach((key) => {
-      if (state[key] !== initialState[key]) {
-        changes[key] = state[key];
-      }
-    });
-    const { todoId } = initialState;
+    await newTodo({ todo: state });
     onClose();
-    await updateTodo({ todoId, changes });
   };
 
   const handleDate = (value) => {
@@ -136,14 +100,9 @@ export default function EditTodoForm({ todo, onClose }) {
 
   const isReadyForSubmit = () => {
     const checkCompletion = submissionCheck.every((field) => !isEmpty(state[field]));
-    // add check difference
     const checkErrors = isEmpty(error) || Object.values(error).every((field) => isNil(field));
     return checkCompletion && checkErrors;
   };
-
-  const {
-    dueDate, assignedTo, text, detail, importance, history,
-  } = state;
 
   return (
     <Container
@@ -153,7 +112,7 @@ export default function EditTodoForm({ todo, onClose }) {
     >
       <form>
         <Typography variant="h6" className={classes.title}>
-          Edit Todo
+          New Todo
         </Typography>
         <TextField
           error={!!error.text}
@@ -209,7 +168,6 @@ export default function EditTodoForm({ todo, onClose }) {
           <FormControl variant="outlined" fullWidth className={classes.formControl}>
             <InputLabel id="importance-input-label">Importance</InputLabel>
             <Select
-              // className={classes.menuItem}
               labelId="importance-label"
               id="importance-select"
               name="importance"
@@ -217,20 +175,21 @@ export default function EditTodoForm({ todo, onClose }) {
               onChange={handleInput}
               label="Importance"
             >
+              <MenuItem value=""><em>None</em></MenuItem>
               <MenuItem value="High">
-                <span className={classes.menuItem}>
+                <span className={classes.flexRow}>
                   <FlagIcon style={{ color: red[500], marginRight: '8px' }} />
                   High
                 </span>
               </MenuItem>
               <MenuItem value="Medium">
-                <span className={classes.menuItem}>
+                <span className={classes.flexRow}>
                   <FlagIcon style={{ color: orange[500], marginRight: '8px' }} />
                   Medium
                 </span>
               </MenuItem>
               <MenuItem value="Low">
-                <span className={classes.menuItem}>
+                <span className={classes.flexRow}>
                   <FlagIcon style={{ color: green[500], marginRight: '8px' }} />
                   Low
                 </span>
@@ -262,19 +221,7 @@ export default function EditTodoForm({ todo, onClose }) {
             ))}
           </Select>
         </FormControl>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              className={classes.check}
-              checked={checked}
-              onChange={handleChange}
-              // indeterminate
-              color="primary"
-              inputProps={{ 'aria-label': 'primary checkbox' }}
-            />
-          )}
-          label="Mark as completed"
-        />
+
         <div className={classes.flexRow}>
           <Button
             className={classes.submit}
@@ -287,7 +234,7 @@ export default function EditTodoForm({ todo, onClose }) {
             color="primary"
             onClick={handleSubmit}
           >
-            Update
+            Add
           </Button>
           <br />
           <Button
@@ -304,25 +251,9 @@ export default function EditTodoForm({ todo, onClose }) {
             Cancel
           </Button>
         </div>
-
-        <div className={classes.menuItem}>
-          <Typography>History</Typography>
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </div>
-
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <History history={history} />
-        </Collapse>
       </form>
     </Container>
   );
 }
+
+export default AddTodoForm;

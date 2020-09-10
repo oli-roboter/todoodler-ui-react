@@ -4,7 +4,7 @@ import './assets/css/variables.css';
 // import './assets/css/flex.css';
 import Login from './pages/login/Login';
 import SignUp from './pages/signup/Signup';
-import Todoodler from './pages/todoodler/Todoodler';
+import Todoodler from './pages/todoodler';
 import NotFound from './pages/NotFound';
 import { useAuthState } from './auth/AuthContext';
 

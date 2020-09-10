@@ -4,7 +4,7 @@ const path = require('path');
 // require('dotenv').config();
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: './src/index.js',
   resolve: { extensions: ['.js', '.jsx'] },
   node: {
     fs: 'empty',
