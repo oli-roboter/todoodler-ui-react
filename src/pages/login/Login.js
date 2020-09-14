@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  form: {
+  loginForm: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
@@ -64,7 +64,7 @@ function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.loginForm} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
