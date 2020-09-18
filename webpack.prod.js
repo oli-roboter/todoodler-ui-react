@@ -17,7 +17,14 @@ module.exports = merge(common, {
     publicPath: '/',
   },
   optimization: {
-    minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin()], // overides the js minification
+    minimizer: [
+      new OptimizeCssAssetsPlugin(),
+      new TerserPlugin({
+        terserOptions: {
+          output: { ascii_only: true },
+        },
+      }),
+    ], // overides the js minification
   },
   module: {
     rules: [
