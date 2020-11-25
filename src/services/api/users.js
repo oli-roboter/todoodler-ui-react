@@ -21,7 +21,8 @@ export const getWorkGroupUsers = async () => {
     });
     return { data: response.data, statusCode: response.status };
   } catch (err) {
-    console.error('Erro', err.response);
+    // eslint-disable-next-line no-console
+    console.error('Getting Workgroup Users', err);
     return { error: err.response.data, statusCode: err.response.status };
   }
 };

@@ -63,6 +63,7 @@ export const logout = async () => {
       data: { username },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Erro:', error.response);
   }
 };

@@ -22,7 +22,6 @@ export const getTodos = async () => {
     });
     return { data: response.data, statusCode: response.status };
   } catch (err) {
-    console.error('Erro', err.response);
     return { error: err.response.data, statusCode: err.response.status };
   }
 };

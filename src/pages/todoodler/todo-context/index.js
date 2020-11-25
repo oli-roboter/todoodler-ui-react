@@ -24,7 +24,6 @@ export const TodoProvider = ({ children }) => {
   useEffect(() => {
     const usersPromise = getWorkGroupUsers();
     const todosPromise = getTodos();
-
     Promise.all([usersPromise, todosPromise])
       .then(([resolvedUsers, resolvedTodos]) => {
         // maybe build unique state will the 3 infos below and use reducer
@@ -33,7 +32,8 @@ export const TodoProvider = ({ children }) => {
         setUsers(resolvedUsers.data.data.users);
         setTodos(resolvedTodos.data.data);
       })
-      .catch((e) => console.error(e));
+      // eslint-disable-next-line no-console
+      .catch((error) => console.error('Promise error:', error));
     // do proper error handling
   }, []);
 
@@ -51,6 +51,7 @@ export const TodoProvider = ({ children }) => {
   const newTodo = async ({ todo }) => {
     const updatedTodos = await addTodo(todo);
     if (updatedTodos.error) {
+      // eslint-disable-next-line no-alert
       alert(updatedTodos.error.error, updatedTodos.statusCode);
       return;
     }
