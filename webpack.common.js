@@ -2,7 +2,7 @@
 const Dotenv = require('dotenv-webpack');
 // const path = require('path');
 require('dotenv').config();
-console.log(process.env.AUTH_BAKEND);
+console.log(process.env.AUTH_BACKEND);
 console.log(process.env.TODOODLER_BACKEND);
 
 module.exports = {
