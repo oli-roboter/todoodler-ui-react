@@ -4,7 +4,7 @@ import { AUTH } from '../../config';
 import storageHandler from '../storageHandler';
 
 export const login = async (username, password) => {
-  const url = `${process.env.AUTH_BACKEND}/login`;
+  const url = `${AUTH}/login`;
   try {
     const user = await axios.post(url, {
       username, password,
