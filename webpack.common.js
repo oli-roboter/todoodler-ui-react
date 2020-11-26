@@ -1,7 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const Dotenv = require('dotenv-webpack');
 // const path = require('path');
-// require('dotenv').config();
+require('dotenv').config();
+console.log(process.env.AUTH_BAKEND);
+console.log(process.env.TODOODLER_BACKEND);
 
 module.exports = {
   entry: './src/index.js',
