@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     gridRow: 2,
     margin: theme.spacing(1),
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr 1fr',
+    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
     height: '90vh',
   },
 }));
@@ -27,6 +27,7 @@ const Main = () => {
   const due1 = timeSlots.due1.filter((todo) => !filteredUsers.includes(todo.assignedTo));
   const due2 = timeSlots.due2.filter((todo) => !filteredUsers.includes(todo.assignedTo));
   const due3 = timeSlots.due3.filter((todo) => !filteredUsers.includes(todo.assignedTo));
+  const due4 = timeSlots.due4.filter((todo) => !filteredUsers.includes(todo.assignedTo));
 
   return (
     <div className={classes.root}>
@@ -34,6 +35,7 @@ const Main = () => {
       <Section todos={due1} title={sectionNames.section2} colours={userColours} />
       <Section todos={due2} title={sectionNames.section3} colours={userColours} />
       <Section todos={due3} title={sectionNames.section4} colours={userColours} />
+      <Section todos={due4} title={sectionNames.section5} colours={userColours} />
     </div>
   );
 };

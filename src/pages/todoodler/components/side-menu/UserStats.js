@@ -15,8 +15,9 @@ const UserStats = ({ stats }) => {
   const due1 = stats.due1.length;
   const due2 = stats.due2.length;
   const due3 = stats.due3.length;
+  const due4 = stats.due4.length;
 
-  const text = `${overdue}|${due1}|${due2}|${due3}`;
+  const text = `${overdue}|${due1}|${due2}|${due3}|${due4}`;
 
   return (
     <Chip className={classes.root} label={text} size="small" />

@@ -26,7 +26,7 @@ const DeleteSwitch = () => {
   return (
     <div className={classes.root}>
       <Typography variant="h6" className={classes.text}>
-        Deletemode
+        Enable delete
       </Typography>
       <Switch
         checked={deleteMode}

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import Card from '@material-ui/core/Card';
 import {
-  grey, green, orange, red,
+  grey, green, amber, red,
 } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import Brightness1RoundedIcon from '@material-ui/icons/Brightness1Rounded';
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     color: grey[500],
     '&:hover': {
       background: hoverGrey,
-      color: red[500],
+      color: red[600],
       cursor: 'pointer',
     },
   },
@@ -137,8 +137,8 @@ export default function SimpleCard({ colour, todo }) {
   };
 
   const flagColour = {
-    High: red[500],
-    Medium: orange[500],
+    High: red[600],
+    Medium: amber[500],
     Low: green[500],
   };
 

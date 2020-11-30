@@ -1,9 +1,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const Dotenv = require('dotenv-webpack');
-// const path = require('path');
+const path = require('path');
+// const config = require('./src/config');
 require('dotenv').config();
 console.log(process.env.AUTH_BACKEND);
 console.log(process.env.TODOODLER_BACKEND);
+console.log(path.resolve(__dirname, './.env'));
+// console.log(config.AUTH, config.TODO);
 
 module.exports = {
   entry: './src/index.js',
@@ -37,6 +40,9 @@ module.exports = {
     ],
   },
   plugins: [
-    new Dotenv({ systemvars: true }),
+    new Dotenv({
+      path: path.resolve(__dirname, './.env'),
+      systemvars: true,
+    }),
   ],
 };

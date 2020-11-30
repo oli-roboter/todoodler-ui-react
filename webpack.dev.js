@@ -25,6 +25,7 @@ module.exports = merge(common, {
   },
   devServer: {
     historyApiFallback: true,
+    port: 9000,
   },
   plugins: [
     // creates the index.html in dist folder with script tag linked to correct hashed main.js file

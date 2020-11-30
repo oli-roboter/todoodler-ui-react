@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     gridRow: '1 / span 2',
     display: 'flex',
     flexDirection: 'column',
-    border: '1px solid lightGrey',
+    borderRight: '1px solid lightGrey',
     // backgroundColor: theme.palette.primary.light,
   },
   usersTitle: {
@@ -64,9 +64,9 @@ const Sidemenu = () => {
   const userTodos = (username) => todos.filter((todo) => todo.assignedTo === username);
 
   const {
-    section1, section2, section3, section4,
+    section1, section2, section3, section4, section5,
   } = sectionNames;
-  const toolTipLabel = `${section1}|${section2}|${section3}|${section4}`;
+  const toolTipLabel = `${section1}|${section2}|${section3}|${section4}|${section5}`;
   return (
     <aside className={classes.root}>
       <Header version="0.1.0" />
@@ -92,7 +92,7 @@ const Sidemenu = () => {
             </>
           )}
         >
-          <Typography variant="subtitle1">Statistics</Typography>
+          <Typography variant="h6">Statistics</Typography>
         </HtmlTooltip>
       </span>
       <div className={classes.users}>

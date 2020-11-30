@@ -17,7 +17,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import FlagIcon from '@material-ui/icons/Flag';
-import { green, orange, red } from '@material-ui/core/colors';
+import { green, amber, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
 import { useTodoState } from '../../todo-context';
 
@@ -178,13 +178,13 @@ function AddTodoForm({ onClose }) {
               <MenuItem value=""><em>None</em></MenuItem>
               <MenuItem value="High">
                 <span className={classes.flexRow}>
-                  <FlagIcon style={{ color: red[500], marginRight: '8px' }} />
+                  <FlagIcon style={{ color: red[600], marginRight: '8px' }} />
                   High
                 </span>
               </MenuItem>
               <MenuItem value="Medium">
                 <span className={classes.flexRow}>
-                  <FlagIcon style={{ color: orange[500], marginRight: '8px' }} />
+                  <FlagIcon style={{ color: amber[500], marginRight: '8px' }} />
                   Medium
                 </span>
               </MenuItem>

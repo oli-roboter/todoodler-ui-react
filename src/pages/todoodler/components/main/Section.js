@@ -16,7 +16,6 @@ const useStyles = makeStyles({
 
 function Section({ todos, title, colours }) {
   const classes = useStyles();
-
   return (
     <div>
       <Typography align="center" variant="h5" paragraph={true}>{title}</Typography>

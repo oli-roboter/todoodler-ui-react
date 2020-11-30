@@ -23,7 +23,7 @@ import {
 import FlagIcon from '@material-ui/icons/Flag';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
-import { green, orange, red } from '@material-ui/core/colors';
+import { green, amber, red } from '@material-ui/core/colors';
 import validateInput from '../../../../services/input-validation/rules';
 import { useTodoState } from '../../todo-context';
 import History from '../history/History';
@@ -219,13 +219,13 @@ export default function EditTodoForm({ todo, onClose }) {
             >
               <MenuItem value="High">
                 <span className={classes.menuItem}>
-                  <FlagIcon style={{ color: red[500], marginRight: '8px' }} />
+                  <FlagIcon style={{ color: red[600], marginRight: '8px' }} />
                   High
                 </span>
               </MenuItem>
               <MenuItem value="Medium">
                 <span className={classes.menuItem}>
-                  <FlagIcon style={{ color: orange[500], marginRight: '8px' }} />
+                  <FlagIcon style={{ color: amber[500], marginRight: '8px' }} />
                   Medium
                 </span>
               </MenuItem>
