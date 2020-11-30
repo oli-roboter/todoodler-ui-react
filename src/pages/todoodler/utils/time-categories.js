@@ -8,13 +8,16 @@ const dateLimits = {
 };
 
 export default function timeSlotCalculator(todos) {
+  const orderedTodos = [...todos];
+  orderedTodos.sort((a, b) => b.dueDate - a.dueDate);
+
   const overdue = [];
   const due1 = [];
   const due2 = [];
   const due3 = [];
   const due4 = [];
 
-  todos.forEach((todo) => {
+  orderedTodos.forEach((todo) => {
     if (dateLimits.now > moment(todo.dueDate)) {
       overdue.push(todo);
     } else if (dateLimits.limit3 < moment(todo.dueDate)) {
